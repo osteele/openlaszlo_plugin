@@ -1,5 +1,8 @@
 = OpenLaszlo Rails Plugin -- Change History
 
+== Trunk
+* Doc formatting
+
 == 0.6 (2006-01-13)
 * Added documentation
 * :applet task installs the javascript too

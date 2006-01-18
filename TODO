@@ -13,5 +13,5 @@
 == New features
 * Add scaffolding prefix?  Use simpler inclusion mechanism, if not.
 * Read width, height from canvas
-* Detect when applet needs recompilation
-* Automatic recompile
+* Warn when applet needs recompilation
+* Automatic recompilation
