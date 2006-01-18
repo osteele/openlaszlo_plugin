@@ -1,0 +1,50 @@
+= OpenLaszlo Plugin
+This plugin makes it easy to use OpenLaszlo applications with Rails.  It contains helpers and scaffolding that implement a variant of the REST API documented here[http://wiki.openlaszlo.org/Database_Connector].
+
+For example, the 
+
+Contacts is pre-alpha code.  See the "Unfinished Business" section at the end of this README for a description of some of the missing pieces.
+
+== Requirements
+ * Ruby -v of 1.8.2 (25-05-2004) or 1.8.3 
+ * Rails 0.14.2
+* {OpenLaszlo 3.1 or later}[http://openlaszlo.org]
+
+== Installation
+0. Install OpenLaszlo, Ruby, and Ruby on Rails.
+
+1. Install the ROpenLaszlo gem:
+  > gem install ropenlaszlo
+
+2. Install this plugin.  In your rails application directory:
+  > plugin install svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo
+
+3. Set your OPENLASZLO_HOME environment variable to the directory that contains the OpenLaszlo SDK.  If the following prints something, you've got it right:
+> grep Laszlo "$OPENLASZLO_HOME/README.txt"
+
+An example application that uses this plugin can be downloaded from here[http://osteele.com/sources/ruby/openlaszlo].
+
+== Resources
+* Subversion[svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo]
+* {OpenLaszlo plugin project page}[http://ropenlaszlo.rubyforge.org/]
+* {Laszlo on Rails project page}[http://wiki.openlaszlo.org/Laszlo_on_Rails]
+* {Laszlo on Rails mailing list}[http://groups.google.com/group/laszlo-on-rails]
+
+Unfinished Business
+============
+- documentation
+- unit tests
+- controller currently always reloads
+- model should include address, homepage from associates
+- extend example to exercise C,U,and D
+- release as a gem and plugin
+- (separate project) GUI components that make consuming the data easier
+
+Credits
+============
+Oliver Steele http://osteele.com --- Ruby code
+Geoff Stearns http://blog.deconcept.com/flashobject/ --- FlashObject JavaScript
+Sarah Allen http://laszlosystems.com --- Contacts demo (client side)
+Rails team --- Rails
+Ruby team --- Ruby
+OpenLaszlo team --- OpenLaszlo
