@@ -1,5 +1,10 @@
 = OpenLaszlo Rails Plugin -- Change History
 
+== 0.4 (2006-01-12)
+* Generators for rest_controller, applet
+* Move helper methods out of scaffolding
+* New class: RangeList
+
 == 0.3 (2006-01-12)
 * Added flashobject.js to the distribution
 * 'rake update_javascripts' installs flashobject.js

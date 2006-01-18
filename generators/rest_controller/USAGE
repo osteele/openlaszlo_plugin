@@ -1,0 +1,26 @@
+Description:
+    The rest_controller generator creates a controller that implements
+    the OpenLaszlo REST API.
+
+    The generator takes a controller name as its argument.
+    The controller name may be given in CamelCase or under_score and should
+    not be suffixed with 'Controller'.  To create a controller within a
+    module, specify the controller name as 'module/controller'.
+
+    The generator is an alternative to the use of the scaffolding method:
+      class ContactsController < ApplicationController
+        rest_scaffold :contact
+      end
+
+    The file that the generator creates differs from this in that it contains
+    an explicit methods for each action.  This is more verbose, but is a
+    better starting point for customizing the methods.
+
+
+Example:
+    ./script/generate rest_controller contacts
+
+    This will create:
+        app/controllers/contacts_controller.rb
+        app/helpers/contacts_helper.rb
+        test/functional/contacts_controller_test.rb

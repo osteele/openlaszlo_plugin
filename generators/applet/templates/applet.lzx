@@ -1,0 +1,3 @@
+<canvas>
+  <text>My source code is in <%= path %></text>
+</canvas>

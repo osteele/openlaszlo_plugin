@@ -31,8 +31,32 @@ right:
 
 == Usage
 
-In your rails application directory, do this to install the flashobject Javascript:
+In your rails application directory:
+
+1. Install the javascript:
   > rake update_javascripts
+
+2. Create a REST controller. Either use the scaffolding:
+  class ContactsController < ApplicationController
+    rest_scaffold :contact
+  end
+or the generator:
+  > script/generate rest_controller contacts
+
+3. Create an applet, and a view that displays it:
+  > script/generate applet contacts applet
+
+4. Add a rake task that compiles the applet.  For example, place this in your lib/tasks/applets.rake file:
+  require 'ropenlaszlo'
+  task :applets => 'public/applets/contacts.swf'
+  file 'public/applets/contacts.swf' => 'app/applets/contacts/contacts.lzx' do |t|
+    OpenLaszlo::compile t.prerequisites.first, :output => t.name
+  end
+And execute:
+  > rake applets
+(Automating this will be the topic if the next release.)
+
+Now launch the server (script/server), and you can view your applet at http:localhost:3000/contacts/applet.  It doesn't *do* anything yet -- that's up to you.
 
 == Resources
 * {Calendar example application}[http://osteele.com/sources/ruby/openlaszlo].

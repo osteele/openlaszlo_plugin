@@ -5,15 +5,18 @@
 * Unit tests
 * Example
 
-== Functionality
-* Move methods out of scaffolding
+== Tests
+* "-" range expression
+
+== Corners
+* Filename collision in applet generator
 
 == New features
 * Generators
-* Add scaffolding prefix?  Or else use more elegant inclusion mechanism.
+* Add scaffolding prefix?  Use simpler inclusion mechanism, if not.
 * Add tasks/openlaszlo.rake
-
-=== View helper
-* parameterize options
-* read width, height from canvas
-* automatic recompile
+* Read width, height from canvas
+* Automatic recompile
+* Default applet reads from server
+* Warn when applet isn't present
+* Warn when javascript isn't present

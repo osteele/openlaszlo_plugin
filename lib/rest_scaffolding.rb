@@ -21,27 +21,18 @@ module ActionController
         
         class_eval <<-"end_eval", __FILE__, __LINE__
           def records
-            options = compute_options params[:id]
+            ranges = RangeList.parse(params[:id] || '', :domain_start => 1)
+            options = {}
+            options[:conditions] = ranges.to_sql_condition unless ranges.empty?
             records = #{class_name}.find :all, options
             response.headers["Content-Type"] = "text/xml"
             render :text => RestHelper::records_xml(records)
           end
           alias_method :index, :records
           
-          def page
-            expr = params[:id]
-            records = []
-            for subexpr in expr.split(',') do
-              options = {}
-              # start, start-, start-end, or -end
-              if subexpr =~ /^([0-9]+)?(-([0-9]+)?)?$/
-                first = ($1 && $1.to_i) || 1
-                last = $2 ? ($3 && $3.to_i) : first
-                options[:offset] = first
-                options[:limit] = last+1-first if last
-              end
-              records += #{class_name}.find :all, options
-            end
+          def pages
+            ranges = RangeList.parse params[:id], :domain_start => 1
+            records = ranges.pages_for #{class_name}
             response.headers["Content-Type"] = "text/xml"
             render :text => RestHelper::records_xml(records)
           end

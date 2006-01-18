@@ -2,6 +2,9 @@
 # Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
 # License:: Ruby License.
 
+require 'range_list'
+require 'extensions'
+
 # Implements helper functions to implement a subset of the
 # spec at http://wiki.openlaszlo.org/Database_Connector.
 module RestHelper
@@ -27,11 +30,5 @@ module RestHelper
         xm.column(:name => column.name, :type => column.klass || "String")
       end
     }
-  end
-end
-
-class String
-  def xmlize
-    return self.underscore.gsub(/_/, '-')
   end
 end
