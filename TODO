@@ -1,7 +1,6 @@
 = OpenLaszlo Rails Plugin -- To Do List
 
 == Packaging
-* Docs
 * Unit tests
 * Example
 
@@ -9,14 +8,10 @@
 * "-" range expression
 
 == Corners
-* Filename collision in applet generator
+* Applet generator: check for applet name collision
 
 == New features
-* Generators
 * Add scaffolding prefix?  Use simpler inclusion mechanism, if not.
-* Add tasks/openlaszlo.rake
 * Read width, height from canvas
+* Detect when applet needs recompilation
 * Automatic recompile
-* Default applet reads from server
-* Warn when applet isn't present
-* Warn when javascript isn't present

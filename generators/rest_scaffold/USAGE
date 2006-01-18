@@ -1,7 +1,10 @@
 Description:
-    The rest_controller generator creates a controller that implements
-    the OpenLaszlo REST API.    If the model does not exist, it
+    The rest_scaffold generator creates a controller that implements
+    the OpenLaszlo REST API.  If the model does not exist, it
     creates it as well.
+
+    The generated code is equivalent to the "rest_scaffold :model" declaration,
+    making customize the methods of the controller.
 
     The generator takes a controller name as its argument.
     The controller name may be given in CamelCase or under_score and should

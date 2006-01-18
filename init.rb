@@ -1,6 +1,6 @@
 # Author:: Oliver Steele
 # Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
-# License:: Ruby License.
+# License:: MIT License.
 
 require 'rest_helper'
 require 'rest_scaffolding'

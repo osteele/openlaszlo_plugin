@@ -1,5 +1,25 @@
 = OpenLaszlo Rails Plugin -- Change History
 
+== 0.6 (2006-01-13)
+* Added documentation
+* :applet task installs the javascript too
+* switched to MIT license
+
+== 0.5 (2006-01-12)
+=== New features
+* Generated applet displays data from server
+* Default :applet task compiles applets
+* The rest_controller generator uses the rest_scaffold
+* New rest_scaffold generator writes out a copy of the methods
+* rest_controller and rest_scaffold generators create the model if it doesn't exist
+* applet generator creates the controller and model if they don't exist
+* Development mode warns when applet isn't present
+* Development mode warns when javascript isn't included
+=== Bug fixes
+* applet generator creates intermediate view directories
+=== Implementation
+* Remove copied templates from rest_controller generator; reference them via "generator:filename" notation instead
+
 == 0.4 (2006-01-12)
 * Generators for rest_controller, applet
 * Move helper methods out of scaffolding

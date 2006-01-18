@@ -1,3 +1,9 @@
-<canvas>
-  <text>My source code is in <%= path %></text>
+<canvas layout="axis: y">
+  <% dataset_name = "#{element_name}Data" -%>
+  <text>My source code is in <%= path %>.</text>
+  
+  <dataset name="<%= dataset_name %>"
+           src="http://localhost:3000/<%= singular_name %>/records" request="true"/>
+  
+  <grid datapath="<%= dataset_name %>:/records" contentdatapath="<%= element_name %>"/>
 </canvas>

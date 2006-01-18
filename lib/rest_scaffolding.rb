@@ -1,17 +1,28 @@
 # Author:: Oliver Steele
 # Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
-# License:: Ruby License.
+# License:: MIT License.
 
 require 'action_controller'
 
-module ActionController
+module ActionController # :nodoc:
   module RestScaffolding # :nodoc:
     def self.append_features(base)
       super
       base.extend(ClassMethods)
     end
     
+    # REST Scaffolding provides OpenLaszlo REST actions for creating, reading,
+    # updating, and destroying records.
+    #
+    # Example:
+    #
+    #  class ContactsController < ActionController::Base
+    #    rest_scaffold :contacts
+    #  end
     module ClassMethods
+      # Adds OpenLaszlo REST actions to the controller.  The options
+      # are the same as for ActionView::Scaffolding.scaffold, except
+      # that the +:suffix+ option is not currently supported.
       def rest_scaffold(model_id, options = {})
         options.assert_valid_keys(:class_name, :suffix)
         
@@ -30,12 +41,13 @@ module ActionController
           end
           alias_method :index, :records
           
-          def pages
+          def page
             ranges = RangeList.parse params[:id], :domain_start => 1
             records = ranges.pages_for #{class_name}
             response.headers["Content-Type"] = "text/xml"
             render :text => RestHelper::records_xml(records)
           end
+          alias_method :pages, :page
           
           def schema
             response.headers["Content-Type"] = "text/xml"

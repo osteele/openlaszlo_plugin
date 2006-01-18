@@ -2,7 +2,7 @@
 # Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
 # License:: MIT License.
 
-class RestControllerGenerator < Rails::Generator::NamedBase
+class RestScaffoldGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
       # Check for class naming collisions.

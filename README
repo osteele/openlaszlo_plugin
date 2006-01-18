@@ -1,12 +1,29 @@
 = OpenLaszlo Rails Plugin
 
 This plugin makes it easy to use OpenLaszlo applications with Rails.  It
-contains helpers and scaffolding that implement a variant of the {OpenLaszlo REST API}[http://wiki.openlaszlo.org/Database_Connector].
+contains helpers, scaffolding, and generators that implement a variant of the {OpenLaszlo REST API}[http://wiki.openlaszlo.org/Database_Connector].
 
-For example, the following controller implements a subset of the classes in the REST API:
+For example, the following controller implements  the methods in the REST API:
   class ContactsController < ApplicationController
     rest_scaffold :contact
   end
+
+This adds the following URLs:
+  /contacts/records
+  /contacts/records/1-10 # Returns records with ids 1 through 10
+  /contacts/records/1,5,10
+  /contacts/records/1-10,20-30
+  /contacts/pages/1-10 # Returns the first 10 records
+  /contacts/create/firstname=Laszlo&lastname=Moholy-Nogy
+  /contacts/update/id=40&firstname=Victory
+  /contacts/delete/id=40
+
+The plugin defines these generators, that can be used to quickly create a REST controller and an OpenLaszlo stub application that uses it.  Use the +--help+ option for more information.
+  script/generate rest_controller # generates a controller that uses +rest_scaffold+
+  script/generate rest_scaffold # an alternative to the above, that generates explicit methods
+  script/generate applet # generates an OpenLaszlo source file, and a view to hold it
+
+The plugin also defines the +applets+ rake task, which compiles the OpenLaszlo applets in the +app/applets+ directory.
 
 == Requirements
 
@@ -33,43 +50,28 @@ right:
 
 In your rails application directory:
 
-1. Install the javascript:
-  > rake update_javascripts
-
-2. Create a REST controller. Either use the scaffolding:
-  class ContactsController < ApplicationController
-    rest_scaffold :contact
-  end
-or the generator:
+1. Create a REST controller:
   > script/generate rest_controller contacts
 
-3. Create an applet, and a view that displays it:
+2. Create an applet, and a view that displays it:
   > script/generate applet contacts applet
 
-4. Add a rake task that compiles the applet.  For example, place this in your lib/tasks/applets.rake file:
-  require 'ropenlaszlo'
-  task :applets => 'public/applets/contacts.swf'
-  file 'public/applets/contacts.swf' => 'app/applets/contacts/contacts.lzx' do |t|
-    OpenLaszlo::compile t.prerequisites.first, :output => t.name
-  end
-And execute:
+3. Compile the applet:
   > rake applets
-(Automating this will be the topic if the next release.)
 
-Now launch the server (script/server), and you can view your applet at http:localhost:3000/contacts/applet.  It doesn't *do* anything yet -- that's up to you.
+Now launch the server (script/server), and you can view your applet at http:localhost:3000/contacts/applet.
 
 == Resources
 * {Calendar example application}[http://osteele.com/sources/ruby/openlaszlo].
 * {OpenLaszlo}[http://openlaszlo.org/]
 * {OpenLaszlo plugin project page}[http://ropenlaszlo.rubyforge.org/]
 * {Laszlo on Rails project page}[http://wiki.openlaszlo.org/Laszlo_on_Rails]
-* {Laszlo on Rails mailing
-list}[http://groups.google.com/group/laszlo-on-rails]
+* {Laszlo on Rails mailing list}[http://groups.google.com/group/laszlo-on-rails]
 *
 Subversion[svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo]
 
-Credits
-============
-Oliver Steele http://osteele.com --- Ruby code
-Geoff Stearns http://blog.deconcept.com/flashobject/ --- FlashObject
+== Credits
+* {Oliver Steele}http://osteele.com --- Ruby code
+* {Geoff Stearns}http://blog.deconcept.com/flashobject/ --- FlashObject
 JavaScript
+* Rails team --- This plugin extends and in some cases borrows code from the Rails implementation
