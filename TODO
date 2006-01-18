@@ -1,17 +1,19 @@
-= OpenLaszlo plugin -- To Do List
+= OpenLaszlo Rails Plugin -- To Do List
 
 == Packaging
-* Unit tests
 * Docs
-* Add example?
+* Unit tests
+* Example
 
 == Functionality
 * Move methods out of scaffolding
 
 == New features
+* Generators
 * Add scaffolding prefix?  Or else use more elegant inclusion mechanism.
-* Rake task to install javascript helper
-* View helper
-* Generator
-* Automatic recompile
 * Add tasks/openlaszlo.rake
+
+=== View helper
+* parameterize options
+* read width, height from canvas
+* automatic recompile

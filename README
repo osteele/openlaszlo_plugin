@@ -1,4 +1,5 @@
-= OpenLaszlo Plugin
+= OpenLaszlo Rails Plugin
+
 This plugin makes it easy to use OpenLaszlo applications with Rails.  It
 contains helpers and scaffolding that implement a variant of the {OpenLaszlo REST API}[http://wiki.openlaszlo.org/Database_Connector].
 
@@ -8,6 +9,7 @@ For example, the following controller implements a subset of the classes in the 
   end
 
 == Requirements
+
  * Ruby -v of 1.8.2 (25-05-2004) or 1.8.3
  * Rails 0.14.2 or later
 * {OpenLaszlo 3.1 or later}[http://openlaszlo.org]
@@ -25,35 +27,25 @@ svn://rubyforge.org/var/svn/ropenlaszlo/rails/plugins/openlaszlo
 3. Set your OPENLASZLO_HOME environment variable to the directory that
 contains the OpenLaszlo SDK.  If the following prints something, you've got it
 right:
-> grep Laszlo "$OPENLASZLO_HOME/README.txt"
+  > grep Laszlo "$OPENLASZLO_HOME/README.txt"
 
-An example application that uses this plugin can be downloaded from
-here[http://osteele.com/sources/ruby/openlaszlo].
+== Usage
+
+In your rails application directory, do this to install the flashobject Javascript:
+  > rake update_javascripts
 
 == Resources
-*
-Subversion[svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo]
+* {Calendar example application}[http://osteele.com/sources/ruby/openlaszlo].
+* {OpenLaszlo}[http://openlaszlo.org/]
 * {OpenLaszlo plugin project page}[http://ropenlaszlo.rubyforge.org/]
 * {Laszlo on Rails project page}[http://wiki.openlaszlo.org/Laszlo_on_Rails]
 * {Laszlo on Rails mailing
 list}[http://groups.google.com/group/laszlo-on-rails]
-
-Unfinished Business
-============
-- documentation
-- unit tests
-- controller currently always reloads
-- model should include address, homepage from associates
-- extend example to exercise C,U,and D
-- release as a gem and plugin
-- (separate project) GUI components that make consuming the data easier
+*
+Subversion[svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo]
 
 Credits
 ============
 Oliver Steele http://osteele.com --- Ruby code
 Geoff Stearns http://blog.deconcept.com/flashobject/ --- FlashObject
 JavaScript
-Sarah Allen http://laszlosystems.com --- Contacts demo (client side)
-Rails team --- Rails
-Ruby team --- Ruby
-OpenLaszlo team --- OpenLaszlo

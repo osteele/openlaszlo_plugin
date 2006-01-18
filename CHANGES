@@ -1,0 +1,13 @@
+= OpenLaszlo Rails Plugin -- Change History
+
+== 0.3 (2006-01-12)
+* Added flashobject.js to the distribution
+* 'rake update_javascripts' installs flashobject.js
+* <%= javascript_include_tag :default %> includes flashobject.js by default
+* New method <%= flashobject_tags 'applet'' %> can be used to generate HTML to include a Flash object
+
+== 0.2 (2006-01-11)
+* Initial release as plugin
+
+== 0.1 (2006-01-10)
+* Released as part of contacts demo

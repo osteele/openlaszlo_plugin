@@ -1,7 +1,6 @@
-# Copyright (c) 2006 Oliver Steele <steele@osteele.com>
-# 
-# This program is free software.
-# You can distribute/modify this program under the same terms as the {OpenLaszlo platform}[http://openlaszlo.org].
+# Author:: Oliver Steele
+# Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
+# License:: Ruby License.
 
 # Implements helper functions to implement a subset of the
 # spec at http://wiki.openlaszlo.org/Database_Connector.

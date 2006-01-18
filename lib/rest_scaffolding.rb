@@ -1,7 +1,8 @@
-# Copyright (c) 2006 Oliver Steele <steele@osteele.com>
-# 
-# This program is free software.
-# You can distribute/modify this program under the same terms as the {OpenLaszlo platform}[http://openlaszlo.org].
+# Author:: Oliver Steele
+# Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
+# License:: Ruby License.
+
+require 'action_controller'
 
 module ActionController
   module RestScaffolding # :nodoc:
