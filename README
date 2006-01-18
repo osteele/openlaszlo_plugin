@@ -1,13 +1,15 @@
 = OpenLaszlo Plugin
-This plugin makes it easy to use OpenLaszlo applications with Rails.  It contains helpers and scaffolding that implement a variant of the REST API documented here[http://wiki.openlaszlo.org/Database_Connector].
+This plugin makes it easy to use OpenLaszlo applications with Rails.  It
+contains helpers and scaffolding that implement a variant of the {OpenLaszlo REST API}[http://wiki.openlaszlo.org/Database_Connector].
 
-For example, the 
-
-Contacts is pre-alpha code.  See the "Unfinished Business" section at the end of this README for a description of some of the missing pieces.
+For example, the following controller implements a subset of the classes in the REST API:
+  class ContactsController < ApplicationController
+    rest_scaffold :contact
+  end
 
 == Requirements
- * Ruby -v of 1.8.2 (25-05-2004) or 1.8.3 
- * Rails 0.14.2
+ * Ruby -v of 1.8.2 (25-05-2004) or 1.8.3
+ * Rails 0.14.2 or later
 * {OpenLaszlo 3.1 or later}[http://openlaszlo.org]
 
 == Installation
@@ -17,18 +19,24 @@ Contacts is pre-alpha code.  See the "Unfinished Business" section at the end of
   > gem install ropenlaszlo
 
 2. Install this plugin.  In your rails application directory:
-  > plugin install svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo
+  > script/plugin install
+svn://rubyforge.org/var/svn/ropenlaszlo/rails/plugins/openlaszlo
 
-3. Set your OPENLASZLO_HOME environment variable to the directory that contains the OpenLaszlo SDK.  If the following prints something, you've got it right:
+3. Set your OPENLASZLO_HOME environment variable to the directory that
+contains the OpenLaszlo SDK.  If the following prints something, you've got it
+right:
 > grep Laszlo "$OPENLASZLO_HOME/README.txt"
 
-An example application that uses this plugin can be downloaded from here[http://osteele.com/sources/ruby/openlaszlo].
+An example application that uses this plugin can be downloaded from
+here[http://osteele.com/sources/ruby/openlaszlo].
 
 == Resources
-* Subversion[svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo]
+*
+Subversion[svn://rubyforge.org//var/svn/ropenlaszlo/rails/plugins/openlaszlo]
 * {OpenLaszlo plugin project page}[http://ropenlaszlo.rubyforge.org/]
 * {Laszlo on Rails project page}[http://wiki.openlaszlo.org/Laszlo_on_Rails]
-* {Laszlo on Rails mailing list}[http://groups.google.com/group/laszlo-on-rails]
+* {Laszlo on Rails mailing
+list}[http://groups.google.com/group/laszlo-on-rails]
 
 Unfinished Business
 ============
@@ -43,7 +51,8 @@ Unfinished Business
 Credits
 ============
 Oliver Steele http://osteele.com --- Ruby code
-Geoff Stearns http://blog.deconcept.com/flashobject/ --- FlashObject JavaScript
+Geoff Stearns http://blog.deconcept.com/flashobject/ --- FlashObject
+JavaScript
 Sarah Allen http://laszlosystems.com --- Contacts demo (client side)
 Rails team --- Rails
 Ruby team --- Ruby

@@ -1,22 +1,17 @@
 = OpenLaszlo plugin -- To Do List
 
 == Packaging
-* Move to new home
-* Add README, LICENSE
-* Add unit tests
+* Unit tests
 * Docs
 * Add example?
 
 == Functionality
 * Move methods out of scaffolding
-* Add scaffolding prefix?  Or else use more elegant inclusion mechanism.
 
 == New features
+* Add scaffolding prefix?  Or else use more elegant inclusion mechanism.
 * Rake task to install javascript helper
 * View helper
 * Generator
 * Automatic recompile
 * Add tasks/openlaszlo.rake
-
-== Issues
-* Factor out REST API to separate project?
