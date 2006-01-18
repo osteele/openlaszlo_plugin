@@ -1,9 +1,9 @@
 = OpenLaszlo Rails Plugin
 
-The OpenLaszlo plugin makes it easy to use OpenLaszlo[http://openlaszlo.org] client-side applications with Rails.  It
+The OpenLaszlo Rails plugin makes it easy to use OpenLaszlo[http://openlaszlo.org] client-side applications with Rails.  It
 includes generators and scaffolding for creating OpenLaszlo applications, connecting them to Rails REST controllers, and displaying them within Rails views.
 
-For example, the following shell command will create a Rails model name +Contact+, a REST controller named +ContactController+, an OpenLaszlo application named +applet+, and a view named <tt>contact/applet</tt>.  At this point the applet will automatically display records that it retrieves, via the controller, from the model.
+For example, the following shell command will create a Rails model named +Contact+, a REST controller named +ContactController+, an OpenLaszlo application named +applet+, and a view named <tt>contact/applet</tt>.  At this point the applet will automatically display records that it retrieves, via the controller, from the model.
   > script/generate applet contact applet
 
 === Generators

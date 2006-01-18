@@ -8,7 +8,7 @@
 require 'rake/rdoctask'
 
 PKG_NAME = "laszlo-plugin"
-PKG_VERSION = '0.6.1'
+PKG_VERSION = '0.6.2'
 RUBYFORGE_PROJECT = 'laszlo-plugin'
 RUBYFORGE_USER = ENV['RUBYFORGE_USER']
 
@@ -23,4 +23,10 @@ end
 
 task :publish_rdoc do
   sh" scp -r rdoc/* #{RUBYFORGE_USER}@rubyforge.org:/var/www/gforge-projects/#{RUBYFORGE_PROJECT}"
+end
+
+task :tag_svn do
+  url = `svn info`[/^URL:\s*(.*\/)trunk/, 1]
+  system("svn cp #{url}/trunk #{url}/tags/release_#{PKG_VERSION.gsub(/\./,'_')} -m 'tag release #{PKG_VERSION}'")
+  system("svn cp #{url}/trunk #{url}/tags/release")
 end

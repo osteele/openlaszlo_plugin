@@ -1,6 +1,7 @@
 = OpenLaszlo Rails Plugin -- Change History
 
-== Trunk
+== 0.6.2 (2006-01-18)
+* Install plugin from /tags/release
 * Doc formatting
 * More work on the README
 
