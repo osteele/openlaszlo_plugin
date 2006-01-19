@@ -4,13 +4,13 @@ The OpenLaszlo Rails plugin makes it easy to use OpenLaszlo[http://openlaszlo.or
 includes generators and scaffolding for creating OpenLaszlo applications, connecting them to Rails REST controllers, and displaying them within Rails views.
 
 For example, the following shell command will create a Rails model named +Contact+, a REST controller named +ContactController+, an OpenLaszlo application named +applet+, and a view named <tt>contact/applet</tt>.  At this point the applet will automatically display records that it retrieves, via the controller, from the model.
-  > script/generate applet contact applet
+  > ./script/generate applet contact applet
 
 === Generators
 The plugin defines the following generators, that can be used to quickly create a REST controller and an OpenLaszlo stub application that uses it.  Use the <tt>--help</tt> option with a generator for more information about individual plugins.
-  script/generate rest_controller # generates a controller that uses <tt>rest_scaffold</tt>
-  script/generate rest_scaffold # an alternative to the above, that generates explicit methods
-  script/generate applet # generates an OpenLaszlo source file, and a view to hold it
+  ./script/generate rest_controller # generates a controller that uses the rest_scaffold class method
+  ./script/generate rest_scaffold # an alternative to the above, that generates explicit methods
+  ./script/generate applet # generates an OpenLaszlo source file, and a view to hold it
 
 The +rest_controller+ generator generates a controller of the following form.  This implements the methods in the REST API described below.
   class ContactsController < ApplicationController
@@ -51,7 +51,7 @@ It is important to note that these controllers do no authorization or authentica
   > gem install ropenlaszlo
 
 2: Install this plugin.  In your rails application directory:
-  > script/plugin install script/plugin install svn://rubyforge.org/var/svn/laszlo-plugin/tags/openlaszlo
+  > ./script/plugin install svn://rubyforge.org/var/svn/laszlo-plugin/tags/openlaszlo
 
 3: Set your OPENLASZLO_HOME environment variable to the directory that
 contains the OpenLaszlo SDK.  If the following prints something, you've got it
@@ -63,10 +63,10 @@ right:
 In your rails application directory:
 
 1: Create a REST controller:
-  > script/generate rest_controller contacts
+  > ./script/generate rest_controller contacts
 
 2: Create an applet, and a view that displays it:
-  > script/generate applet contacts applet
+  > ./script/generate applet contacts applet
 
 3: Compile the applet:
   > rake applets

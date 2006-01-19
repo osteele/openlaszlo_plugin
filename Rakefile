@@ -27,6 +27,6 @@ end
 
 task :tag_svn do
   url = `svn info`[/^URL:\s*(.*\/)trunk/, 1]
-  #system("svn cp #{url}/trunk #{url}/tags/release_#{PKG_VERSION.gsub(/\./,'_')} -m 'tag release #{PKG_VERSION}'")
+  system("svn cp #{url}/trunk #{url}/tags/release_#{PKG_VERSION.gsub(/\./,'_')} -m 'tag release #{PKG_VERSION}'")
   system("svn cp #{url}/trunk #{url}/rails/plugins/openlaszlo -m 'tag release #{PKG_VERSION}'")
 end
