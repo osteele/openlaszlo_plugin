@@ -8,7 +8,7 @@
 require 'rake/rdoctask'
 
 PKG_NAME = "laszlo-plugin"
-PKG_VERSION = '0.6.2'
+PKG_VERSION = '0.7.0'
 RUBYFORGE_PROJECT = 'laszlo-plugin'
 RUBYFORGE_USER = ENV['RUBYFORGE_USER']
 
@@ -27,6 +27,6 @@ end
 
 task :tag_svn do
   url = `svn info`[/^URL:\s*(.*\/)trunk/, 1]
-  system("svn cp #{url}/trunk #{url}/tags/release_#{PKG_VERSION.gsub(/\./,'_')} -m 'tag release #{PKG_VERSION}'")
-  system("svn cp #{url}/trunk #{url}/tags/release")
+  #system("svn cp #{url}/trunk #{url}/tags/release_#{PKG_VERSION.gsub(/\./,'_')} -m 'tag release #{PKG_VERSION}'")
+  system("svn cp #{url}/trunk #{url}/rails/plugins/openlaszlo -m 'tag release #{PKG_VERSION}'")
 end

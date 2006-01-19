@@ -1,5 +1,11 @@
 = OpenLaszlo Rails Plugin -- Change History
 
+== 0.7 (2006-01-19)
+* RangeList is now in OpenLaszlo module (requires code change to generated +rest_scaffold+ controllers)
+* Moved XML table name and attributes from helper to model (new file active_record_xml)
+* Moved RangeList SQL operations to RestHelper and ActiveRecord (the latter in new file active_record_rest)
+* improve rdoc
+
 == 0.6.2 (2006-01-18)
 * Install plugin from /tags/release
 * Doc formatting

@@ -51,7 +51,7 @@ It is important to note that these controllers do no authorization or authentica
   > gem install ropenlaszlo
 
 2: Install this plugin.  In your rails application directory:
-  > script/plugin install svn://rubyforge.org/var/svn/laszlo-plugin/trunk
+  > script/plugin install script/plugin install svn://rubyforge.org/var/svn/laszlo-plugin/tags/openlaszlo
 
 3: Set your OPENLASZLO_HOME environment variable to the directory that
 contains the OpenLaszlo SDK.  If the following prints something, you've got it
@@ -79,6 +79,15 @@ Now launch the server (script/server), and you can view your applet at http:loca
 * {OpenLaszlo gem project page}[http://ropenlaszlo.rubyforge.org/]
 * {Laszlo on Rails project page}[http://wiki.openlaszlo.org/Laszlo_on_Rails]
 * {Laszlo on Rails mailing list}[http://groups.google.com/group/laszlo-on-rails]
+
+== Upgrade Instructions
+If you are upgrading from version 0.6.2 or earlier *and* you have used the +rest_scaffold+ generator to create a controller that includes method definition bodies, you will need to update these bodies as follows:
+
+In the definition for +records+, change
+  records = ranges.pages_for <<class_name>>
+to
+  records = <<class_name>>.find_pages ranges
+where <<class_name>> is the name of the model class.
 
 == Credits
 * {Oliver Steele}[http://osteele.com] --- Ruby code

@@ -2,21 +2,34 @@
 # Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
 # License:: MIT License.
 
+# A list of intervals -- not Ranges, since the beginning and end of each
+# interval may be indeterminate.  This class is used as a helper for the
+# the REST XML +records+ and +pages+ actions, which respond to requests
+# for lists of ranges of records.
+#
+# TODO: rename to IntervalList?
 class RangeList
   attr_accessor :domain_start, :domain_end
   include Enumerable
   
   private
-  # private, since the implementation of a RangeList as an array of
-  # pairs is private
-  def initialize ranges, attributes
+  # This method is private, since the implementation of a RangeList
+  # as an array of pairs is private
+  def initialize ranges, options={} #:nodoc:
     @ranges = ranges
-    @domain_start = attributes[:domain_start]
-    @domain_end = attributes[:domain_end]
+    @domain_start = options[:domain_start]
+    @domain_end = options[:domain_end]
   end
   
   public
-  def self.parse expr, attributes={}
+  # Create a RangeList that represents +expr+, where +expr+ is of
+  # the form:
+  #   1
+  #   1-10
+  #   1-
+  #   -10
+  # or a comma-separated sequence of such forms.
+  def self.parse expr, options={}
     ranges = []
     for subexpr in expr.split(',') do
       # start, start-, start-end, or -end
@@ -26,11 +39,21 @@ class RangeList
         ranges << [first, last]
       end
     end
-    RangeList.new ranges, attributes
+    RangeList.new ranges, options
   end
   
   def empty?
     return @ranges.empty?
+  end
+  
+  def intervals
+    @ranges
+  end
+  
+  def map_intervals &block
+    @ranges.map do |first, last|
+      block.call first, last
+    end
   end
   
   def each_range &block
@@ -50,28 +73,4 @@ class RangeList
   end
   
   alias :to_a :collect
-  
-  def to_sql_condition
-    @ranges.map do |first, last|
-      if first == last
-        "id=#{first}"
-      else
-        conjuncts = []
-        conjuncts << "#{first}<=id" if first
-        conjuncts << "id<=#{last}" if last
-        conjuncts.length > 1 ? '(' + conjuncts.join(' AND ') + ')' : conjuncts.first
-      end
-    end.join(' OR ')
-  end
-  
-  def pages_for klass
-    records = []
-    for first, last in @ranges do
-      options = {}
-      options[:offset] = first
-      options[:limit] = last+1-first if last
-      records += klass.find :all, options
-    end
-    return records
-  end
 end

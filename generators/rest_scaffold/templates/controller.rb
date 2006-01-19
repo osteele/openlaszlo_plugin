@@ -20,7 +20,7 @@ class <%= class_name %>Controller < ApplicationController
   
   def page
     ranges = RangeList.parse params[:id], :domain_start => 1
-    records = ranges.pages_for <%= class_name %>
+    records = <%= class_name %>.find_pages ranges
     response.headers["Content-Type"] = "text/xml"
     render :text => RestHelper::records_xml(records)
   end
