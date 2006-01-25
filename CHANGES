@@ -1,7 +1,7 @@
 = OpenLaszlo Rails Plugin -- Change History
 
-== TRUNK
-* Tweaked the docs
+== 0.7.1 (2006-01-25)
+* Updated docs
 
 == 0.7 (2006-01-19)
 * RangeList is now in OpenLaszlo module (requires code change to generated +rest_scaffold+ controllers)

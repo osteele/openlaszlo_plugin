@@ -1,6 +1,6 @@
 = OpenLaszlo Rails Plugin
 
-The OpenLaszlo Rails plugin makes it easy to use OpenLaszlo[http://openlaszlo.org] client-side applications with Rails.  It
+The OpenLaszlo Rails plugin makes it easy to use OpenLaszlo[openlaszlo.org] client-side applications with Rails.  It
 includes generators and scaffolding for creating OpenLaszlo applications, connecting them to Rails REST controllers, and displaying them within Rails views.
 
 For example, the following shell command will create a Rails model named +Contact+, a REST controller named +ContactController+, an OpenLaszlo application named +applet+, and a view named <tt>contact/applet</tt>.  At this point the applet will automatically display records that it retrieves, via the controller, from the model.
@@ -38,14 +38,15 @@ The controller generators and the +rest_scaffold+ class method create controller
 === Security
 It is important to note that the REST API controllers do no authorization or authentication.  Any client can invoke any API call.  It is not safe to rely on client-side logic to insure that the client only makes authorized calls, as the client is an untrusted environment and can easily be spoofed.  (This is true for any web application, not just OpenLaszlo applications.)
 
-Use a +before_filter+ or {Model Security}[http://perens.com/FreeSoftware/ModelSecurity/] to lock down your application before deploying it.
+Use a +before_filter+ or {Model Security}[perens.com/FreeSoftware/ModelSecurity/] to lock down your application before deploying it.
 
 == Requirements
 
 * Ruby -v of 1.8.2 (25-05-2004) or 1.8.3
 * Rails 0.14.2 or later
-* {OpenLaszlo 3.1 or later}[http://openlaszlo.org]
-* The {OpenLaszlo ruby gem}[http://ropenlaszlo.rubyforge.org]
+* Subversion[http://subversion.tigris.org/] (so that <tt>script/plugin</tt> can find this package)
+* {OpenLaszlo 3.1 or later}[openlaszlo.org]
+* The {OpenLaszlo ruby gem}[ropenlaszlo.rubyforge.org]
 
 == Installation
 0: Install OpenLaszlo, Ruby, and Ruby on Rails.
@@ -58,6 +59,8 @@ Use a +before_filter+ or {Model Security}[http://perens.com/FreeSoftware/ModelSe
 
 3: Set your +OPENLASZLO_HOME+ environment variable to the directory that contains the OpenLaszlo SDK.  If the following prints anything, you've got it right:
   > grep Laszlo "$OPENLASZLO_HOME/README.txt"
+
+4: Set your +OPENLASZLO_URL+ environment variable to the web location of the Open<tt></tt>Laszlo server; for example, <tt>http</tt><tt>://localhost:8080/lps-3.1.1</tt>.  This step is optional in other platforms (although it makes compilation faster), but is {mandatory on Windows}[OpenLaszlo bug 1428}[www.openlaszlo.org/jira/browse/LPP-1428].
 
 == Usage
 
@@ -75,11 +78,12 @@ In your RAILS application directory:
 Now launch the server (<tt>script/server</tt>), and you can view your applet at <tt>ht</tt><tt>tp:127.0.0.1:3000/contacts/applet</tt>.
 
 == Resources
-* {Calendar example application}[http://osteele.com/sources/ruby/openlaszlo]
-* {OpenLaszlo Project Page}[http://openlaszlo.org/]
-* {OpenLaszlo gem project page}[http://ropenlaszlo.rubyforge.org/]
-* {Laszlo on Rails project page}[http://wiki.openlaszlo.org/Laszlo_on_Rails]
-* {Laszlo on Rails mailing list}[http://groups.google.com/group/laszlo-on-rails]
+* {OpenLaszlo Plugin project page}[rubyforge.org/projects/laszlo-plugin]
+* {OpenLaszlo Gem project page}[rubyforge.org/projects/ropenlaszlo]
+* {OpenLaszlo Project Page}[openlaszlo.org/]
+* {Laszlo on Rails project page}[wiki.openlaszlo.org/Laszlo_on_Rails]
+* {Calendar example application}[osteele.com/sources/ruby/openlaszlo]
+* {Laszlo on Rails mailing list}[groups.google.com/group/laszlo-on-rails]
 
 == Upgrade Instructions
 If you are upgrading from version 0.6.2 or earlier *and* you have used the +rest_scaffold+ generator to create a controller that includes method definition bodies, you will need to update these bodies as follows:
@@ -91,6 +95,6 @@ to
 where <<class_name>> is the name of the model class.
 
 == Credits
-* {Oliver Steele}[http://osteele.com] --- Ruby code
-* Geoff Stearns (unwitting contributor) --- FlashObject[http://blog.deconcept.com/flashobject/] JavaScript
+* {Oliver Steele}[osteele.com] --- Ruby code
+* Geoff Stearns (unwitting contributor) --- FlashObject[blog.deconcept.com/flashobject/] JavaScript
 * Rails team --- This plugin extends and in some cases borrows code from the Rails implementation
