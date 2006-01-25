@@ -21,7 +21,7 @@ Rake::RDocTask.new(:rdoc) do |rd|
   rd.rdoc_files.include ['README', 'CHANGES', 'TODO', 'MIT-LICENSE']
 end
 
-task :publish_rdoc do
+task :publish_rdoc => :rdoc do
   sh" scp -r rdoc/* #{RUBYFORGE_USER}@rubyforge.org:/var/www/gforge-projects/#{RUBYFORGE_PROJECT}"
 end
 

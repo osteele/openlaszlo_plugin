@@ -40,6 +40,10 @@ module ActionView #:nodoc:
         # development mode, and false otherwise.
         # * <tt>:check_for_javascript_include</tt> - if true, the return value will cause the browser to display a diagnostic message if the FlashObject JavaScript was not included.
         # * <tt>:verify_file_exists</tt> - if true, the return value will cause the browser to display a diagnostic message if the Flash object does not exist.
+        #
+        # (This method is called flashobject_tags instead of flashobject_tag
+        # because it returns a *sequence* of HTML tags: a +div+, followed by
+        # a +script+.)
         def flashobject_tags source, options={}
           path = flashobject_path source
           verify_file_exists = options.fetch(:verify_file_exists, ENV['RAILS_ENV'] == 'development')

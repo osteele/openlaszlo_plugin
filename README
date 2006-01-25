@@ -7,22 +7,22 @@ For example, the following shell command will create a Rails model named +Contac
   > ./script/generate applet contact applet
 
 === Generators
-The plugin defines the following generators, that can be used to quickly create a REST controller and an OpenLaszlo stub application that uses it.  Use the <tt>--help</tt> option with a generator for more information about individual plugins.
+The plugin defines the following generators, that can be used to quickly create a REST controller and an OpenLaszlo stub application that uses it.  Use the <tt>--help</tt> option with a generator for more information about individual generators.
   ./script/generate rest_controller # generates a controller that uses the rest_scaffold class method
   ./script/generate rest_scaffold # an alternative to the above, that generates explicit methods
   ./script/generate applet # generates an OpenLaszlo source file, and a view to hold it
 
-The +rest_controller+ generator generates a controller of the following form.  This implements the methods in the REST API described below.
+The +rest_controller+ generator creates a controller of the following form.  This controller implements the methods in the REST API described below.
   class ContactsController < ApplicationController
     rest_scaffold :contact
   end
 
-The +rest_scaffold+ generator generates a controller with the same API, but that contains explicit definitions of the instance methods.  This is useful as a basis for modifying these methods.
+The +rest_scaffold+ generator creates a controller with the same API, but that contains explicit definitions of the instance methods.  This is useful as a basis for modifying these methods.
 
 === Rails Tasks
-The plugin defines the +applets+ rake task, which compiles the OpenLaszlo applets in the <tt>app/applets</tt> directory.
+The plugin defines the <tt>:applets</tt> rake task.  This task compiles the OpenLaszlo applets in the <tt>app/applets</tt> directory.
 
-It also enhances +update_javascripts+ to install the FlashObject JavaScript file, for displaying Flash applets within an HTML page.  The +applets+ rake task ensures that this exists as well.
+It also extends +update_javascripts+ to install the <tt>flashobject.js</tt> JavaScript file in <tt>public/javascripts</tt>.  This file contains support for displaying Flash applets within an HTML page; ActionView::Helpers::FlashObjectHelper::flashobject_tags depends on this.  The <tt>:applets</tt> task ensures that this is present as well.
 
 === REST API
 The controller generators and the +rest_scaffold+ class method create controllers that handle URLs of the following form.
@@ -35,7 +35,10 @@ The controller generators and the +rest_scaffold+ class method create controller
   /contacts/update/id=40&firstname=Victory # update
   /contacts/delete/id=40 # delete
 
-It is important to note that these controllers do no authorization or authentication.  Out of the box, any user can invoke any API call.  Use a +before_filter+ or {Model Security}[http://perens.com/FreeSoftware/ModelSecurity/] to lock down your application before deploying it.
+=== Security
+It is important to note that the REST API controllers do no authorization or authentication.  Any client can invoke any API call.  It is not safe to rely on client-side logic to insure that the client only makes authorized calls, as the client is an untrusted environment and can easily be spoofed.  (This is true for any web application, not just OpenLaszlo applications.)
+
+Use a +before_filter+ or {Model Security}[http://perens.com/FreeSoftware/ModelSecurity/] to lock down your application before deploying it.
 
 == Requirements
 
@@ -53,14 +56,12 @@ It is important to note that these controllers do no authorization or authentica
 2: Install this plugin.  In your rails application directory:
   > ./script/plugin install svn://rubyforge.org/var/svn/laszlo-plugin/tags/openlaszlo
 
-3: Set your OPENLASZLO_HOME environment variable to the directory that
-contains the OpenLaszlo SDK.  If the following prints something, you've got it
-right:
+3: Set your +OPENLASZLO_HOME+ environment variable to the directory that contains the OpenLaszlo SDK.  If the following prints anything, you've got it right:
   > grep Laszlo "$OPENLASZLO_HOME/README.txt"
 
 == Usage
 
-In your rails application directory:
+In your RAILS application directory:
 
 1: Create a REST controller:
   > ./script/generate rest_controller contacts
@@ -71,7 +72,7 @@ In your rails application directory:
 3: Compile the applet:
   > rake applets
 
-Now launch the server (script/server), and you can view your applet at http:localhost:3000/contacts/applet.
+Now launch the server (<tt>script/server</tt>), and you can view your applet at <tt>ht</tt><tt>tp:127.0.0.1:3000/contacts/applet</tt>.
 
 == Resources
 * {Calendar example application}[http://osteele.com/sources/ruby/openlaszlo]
