@@ -1,5 +1,5 @@
-# Author:: Oliver Steele
-# Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
+# Author:: Oliver Steele, Max Carlson
+# Copyright:: Copyright (c) 2006 Oliver Steele, Max Carlson.  All rights reserved.
 # License:: MIT License.
 
 require 'action_controller'
@@ -22,7 +22,16 @@ module ActionController # :nodoc:
     module ClassMethods
       # Adds OpenLaszlo REST actions to the controller.  The options
       # are the same as for ActionView::Scaffolding.scaffold, except
-      # that the +:suffix+ option is not currently supported.
+      # that the <tt>:suffix</tt> option is not currently supported.
+      #
+      # This method adds these actions:
+      #  records
+      #  page
+      #  create
+      #  update
+      #  delete
+      #
+      # Additionally, +index+ is a synonyms for +records+.
       def rest_scaffold(model_id, options = {})
         options.assert_valid_keys(:class_name, :suffix)
         
@@ -36,22 +45,24 @@ module ActionController # :nodoc:
             options = {}
             options[:conditions] = ranges.to_sql_condition unless ranges.empty?
             records = #{class_name}.find :all, options
+            count = #{class_name}.count
             response.headers["Content-Type"] = "text/xml"
-            render :text => RestHelper::records_xml(records)
+            render :text => records_xml(records, count)
           end
           alias_method :index, :records
           
           def page
             ranges = RangeList.parse params[:id], :domain_start => 1
-            records = ranges.pages_for #{class_name}
+            records = #{class_name}.find_pages ranges
+            count = #{class_name}.count
             response.headers["Content-Type"] = "text/xml"
-            render :text => RestHelper::records_xml(records)
+            render :text => records_xml(records, count)
           end
           alias_method :pages, :page
           
           def schema
             response.headers["Content-Type"] = "text/xml"
-            render :text => RestHelper::schema_xml(#{class_name})
+            render :text => schema_xml(#{class_name})
           end
           
           def create

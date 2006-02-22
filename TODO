@@ -3,7 +3,7 @@
 == Packaging
 * Unit tests
 * Example
-* Move top-level classes to module
+* Modules are somewhat muddled
 
 == Tests
 * "-" range expression
