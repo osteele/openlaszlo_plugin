@@ -1,5 +1,5 @@
-# Author:: Oliver Steele
-# Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
+# Author:: Oliver Steele, Max Carlson
+# Copyright:: Copyright (c) 2006 Oliver Steele, Max Carlson.  All rights reserved.
 # License:: MIT License.
 
 require 'extensions'
@@ -8,7 +8,7 @@ module ActionController #:nodoc:
   # Provides methods for responding to a REST request for an XML
   # representation of a database schema or a set of database
   # records.
-  module RestHelper
+module RestHelper
     # Returns a string XML representation of +records+, e.g.:
     #   <records>
     #     <contact id="1" firstname="Victor" lastname="Laszlo"/>
@@ -17,15 +17,15 @@ module ActionController #:nodoc:
     #
     # Instead of +contact+, the value of +records.xml_tag_name+ is used.
     # The attributes are those returned by +records.xml_attributes+.
-    def records_xml records
-      xm = Builder::XmlMarkup.new
-      xm.records(:count => records.length) {
-        records.map do |record|
+    def records_xml records, count
+    xm = Builder::XmlMarkup.new
+    xm.records(:count => records.length, :totalcount => count) {
+      records.map do |record|
           xm.tag!(record.xml_tag_name, record.xml_attributes)
-        end
-      }
-    end
-    
+      end
+    }
+  end
+  
     # Returns a string XML representation of the model schema for
     # +klass+, e.g.:
     #   <contact>
@@ -37,12 +37,12 @@ module ActionController #:nodoc:
     # Instead of +contact+, the value of +klass.xml_tag_name+ is used.
     # The attributes are those returned by +klass.xml_attributes+.
     def schema_xml klass
-      xm = Builder::XmlMarkup.new
+    xm = Builder::XmlMarkup.new
       xm.element(:name => klass.xml_tag_name) {
         klass.xml_attributes.map do |name, type|
           xm.column(:name => name.to_s, :type => type.to_s)
-        end
-      }
+      end
+    }
     end
   end
 end

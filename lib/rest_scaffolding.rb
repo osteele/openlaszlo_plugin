@@ -1,5 +1,5 @@
-# Author:: Oliver Steele
-# Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
+# Author:: Oliver Steele, Max Carlson
+# Copyright:: Copyright (c) 2006 Oliver Steele, Max Carlson.  All rights reserved.
 # License:: MIT License.
 
 require 'action_controller'
@@ -45,16 +45,18 @@ module ActionController # :nodoc:
             options = {}
             options[:conditions] = ranges.to_sql_condition unless ranges.empty?
             records = #{class_name}.find :all, options
+            count = #{class_name}.count
             response.headers["Content-Type"] = "text/xml"
-            render :text => records_xml(records)
+            render :text => records_xml(records, count)
           end
           alias_method :index, :records
           
           def page
             ranges = RangeList.parse params[:id], :domain_start => 1
             records = #{class_name}.find_pages ranges
+            count = #{class_name}.count
             response.headers["Content-Type"] = "text/xml"
-            render :text => records_xml(records)
+            render :text => records_xml(records, count)
           end
           alias_method :pages, :page
           
