@@ -1,5 +1,8 @@
 = OpenLaszlo Rails Plugin -- Change History
 
+== 0.8.0 (2006-01-25)
+* Updated applet and applet generator with a more complete lcient-side implementation that supports paging, create, update and delete from a Laszlo grid.
+
 == 0.7.1 (2006-01-25)
 * Updated docs
 
