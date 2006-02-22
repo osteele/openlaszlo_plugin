@@ -1,0 +1,36 @@
+<!--
+# Author:: Max Carlson, Bill Shapiro
+# Copyright:: Copyright (c) 2006 Max Carlson and Bill Shapiro.  All rights reserved.
+# License:: MIT License.
+-->
+<library>
+    <class name="modelgrid" extends="grid">
+        <attribute name="controller" value="$once{contactsController}"/>
+        <method event="onkeydown" args="k">
+            //Debug.write('onkeydown', k);
+            if (k == 46) {
+                var s = this.getSelection();
+                this.controller.remove(s)
+            }
+        </method>
+        <view placement="content" >				
+            <attribute name="loadDel" value="null"/>
+            <attribute name="lasty" value="0"/>
+            <method event="ony" reference="immediateparent.rowparent">
+                <![CDATA[						
+                    if (this.loadDel == null) {
+                        this.loadDel = new LzDelegate(this, 'loadNow');		
+                    }
+                    LzTimer.addTimer(loadDel, 500);
+                ]]>
+            </method>
+            <method name="loadNow">								
+                var s = Math.floor((-immediateparent.rowparent.y) / (immediateparent.classroot.rowheight)) - 10; 
+                var e = Math.floor((-immediateparent.rowparent.y + immediateparent.height) / (immediateparent.classroot.rowheight)) + 10; 
+                if (s + '' == 'NaN') return;
+                //Debug.write('loadNow', s, e, this);
+                parent.controller.loadRange(s, e);						
+            </method>	  					
+        </view>
+    </class>			
+</library>
