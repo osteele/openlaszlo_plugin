@@ -8,7 +8,7 @@
         <attribute name="controller" value="$once{contactsController}"/>
         <method event="onkeydown" args="k">
             //Debug.write('onkeydown', k);
-            if (k == 46) {
+            if (k == 8 || k == 46) {
                 var s = this.getSelection();
                 this.controller.remove(s)
             }

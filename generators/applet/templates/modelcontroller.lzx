@@ -146,7 +146,7 @@
             for (var i in nodes) {
                 var p = this.modelName + '[@id="' + nodes[i] + '"]';
                 var n = c.xpathQuery(p)
-                if (! n) contine;
+                if (! n) continue;
                 //Debug.write('delete', nodes[i], p, n); 
                 n.parentNode.removeChild(n);
             }
