@@ -1,6 +1,6 @@
 = OpenLaszlo Rails Plugin -- Change History
 
-== 0.8.0 (2006-01-28)
+== 0.8.1 (2006-01-28)
 * updated rest_scaffold generator to match lib/rest_scaffolding.rb
 
 == 0.8.0 (2006-01-25)
