@@ -13,16 +13,18 @@ class <%= class_name %>Controller < ApplicationController
     options = {}
     options[:conditions] = ranges.to_sql_condition unless ranges.empty?
     records = <%= class_name %>.find :all, options
+    count = <%=class_name %>.count
     response.headers["Content-Type"] = "text/xml"
-    render :text => RestHelper::records_xml(records)
+    render :text => RestHelper::records_xml(records, count)
   end
   alias_method :index, :records
   
   def page
     ranges = RangeList.parse params[:id], :domain_start => 1
     records = <%= class_name %>.find_pages ranges
+    count = <%=class_name %>.count
     response.headers["Content-Type"] = "text/xml"
-    render :text => RestHelper::records_xml(records)
+    render :text => RestHelper::records_xml(records, count)
   end
   alias_method :pages, :page
   
