@@ -1,0 +1,87 @@
+<!--
+# Author:: Max Carlson
+# Copyright:: Copyright (c) 2006 Max Carlson  All rights reserved.
+# License:: MIT License.
+-->
+<library>
+    <class name="datamanager" extends="node">
+
+        <!--- Dataset used to make request will be recycled if true. If false,
+              it will not. See LzHttpDatasetPool for more info. -->
+        <attribute name="recycle" value="true" />
+
+        <!--- Query type for requests. One of GET or POST. Default is GET. -->
+        <attribute name="queryType" value="GET" type="string" />
+
+        <!--- Delegate that calls doData method on successful request.
+              @keywords private -->
+        <attribute name="sDel" value="$once{ new LzDelegate(this, 'doData') }" />
+        <!--- Delegate that calls doError method on failed request.
+              @keywords private -->
+        <attribute name="eDel" value="$once{ new LzDelegate(this, 'doError') }" />
+        <!--- Delegate that calls doTimeout method on timed out request.
+              @keywords private -->
+        <attribute name="tDel" value="$once{ new LzDelegate(this, 'doTimeout') }" />
+
+        <!--- Make request to server. Only subclasses of datahandler should call
+              this method.
+              @param String src: request url.
+              @param LzParam lzp: (optional) an LzParam object to make data
+              request with.
+              @param Object opt: (optional) object contain parameters relevant to this
+              request.
+              @return the dataset being used to make the request. -->
+        <method name="doRequest" args="src,lzp,opt">
+            <![CDATA[
+            var dset = LzHttpDatasetPool.get(this.sDel, this.eDel, this.tDel);
+
+            dset.setOption('opt', (opt?opt:null));
+            dset.setQueryType(this.queryType);
+            if (lzp) dset.setQueryParams(lzp);
+            dset.setSrc(src);
+            dset.doRequest();
+
+            return dset;
+            ]]>
+        </method>
+
+        <!--- This method is abstract and must be implemented by instances. -->
+        <method name="handle" args="ds,status,msg">
+            var errMsg = 'handle' + this.name + 'unimplemented';
+            Debug.write(errMsg);
+        </method>
+
+        <!--- Callback method for successful response.
+              @param LzDataset ds: response dataset.
+              @keywords private -->
+        <method name="doData" args="ds">
+            this.handle(ds);
+            if (recycle) {
+                ds.setOption('opt', null);
+                LzHttpDatasetPool.recycle(ds);
+            }
+        </method>
+
+        <!--- Callback method for error response.
+              @param LzDataset ds: response dataset.
+              @keywords private -->
+        <method name="doError" args="ds">
+            this.handle(ds,'error','error');
+            if (recycle) {
+                ds.setOption('opt', null);
+                LzHttpDatasetPool.recycle(ds);
+            }
+        </method>
+
+        <!--- Callback method for error response.
+              @param LzDataset ds: response dataset.
+              @keywords private -->
+        <method name="doTimeout" args="ds">
+            this.handle(ds,'error','timeout');
+            if (recycle) {
+                ds.setOption('opt', null);
+                LzHttpDatasetPool.recycle(ds);
+            }
+        </method>
+    </class>
+</library>
