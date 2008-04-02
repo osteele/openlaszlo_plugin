@@ -1,52 +1,37 @@
 = OpenLaszlo Rails Plugin
 
-The OpenLaszlo Rails plugin makes it easy to use OpenLaszlo[openlaszlo.org] client-side applications with Rails.  It
-includes generators and scaffolding for creating OpenLaszlo applications, connecting them to Rails REST controllers, and displaying them within Rails views.
+The OpenLaszlo Rails plugin makes it easy to use
+OpenLaszlo[openlaszlo.org] client-side applications with Rails.  It
+includes a generator and helper for creating OpenLaszlo applications
+and displaying them within Rails views.
 
 For example, the following shell command will create a Rails model named +Contact+, a REST controller named +ContactController+, an OpenLaszlo application named +applet+, and a view named <tt>contact/applet</tt>.  At this point the applet will automatically display records that it retrieves, via the controller, from the model.
   > ./script/generate applet contact applet
 
+
 === Generators
-The plugin defines the following generators, that can be used to quickly create a REST controller and an OpenLaszlo stub application that uses it.  Use the <tt>--help</tt> option with a generator for more information about individual generators.
-  ./script/generate rest_controller # generates a controller that uses the rest_scaffold class method
-  ./script/generate rest_scaffold # an alternative to the above, that generates explicit methods
+
+The plugin defines the following generator, that can be used to
+quickly create an OpenLaszlo stub application and a view that displays
+it.  Use the <tt>--help</tt> option with a generator for more
+information.
+
   ./script/generate applet # generates an OpenLaszlo source file, and a view to hold it
 
-The +rest_controller+ generator creates a controller of the following form.  This controller implements the methods in the REST API described below.
-  class ContactsController < ApplicationController
-    rest_scaffold :contact
-  end
-
-The +rest_scaffold+ generator creates a controller with the same API, but that contains explicit definitions of the instance methods.  This is useful as a basis for modifying these methods.
 
 === Rails Tasks
+
 The plugin defines the <tt>:applets</tt> rake task.  This task compiles the OpenLaszlo applets in the <tt>app/applets</tt> directory.
 
 It also extends +update_javascripts+ to install the <tt>flashobject.js</tt> JavaScript file in <tt>public/javascripts</tt>.  This file contains support for displaying Flash applets within an HTML page; ActionView::Helpers::FlashObjectHelper::flashobject_tags depends on this.  The <tt>:applets</tt> task ensures that this is present as well.
 
-=== REST API
-The controller generators and the +rest_scaffold+ class method create controllers that handle URLs of the following form.
-  /contacts/records # renders an XML serialization of all the records
-  /contacts/records/1-10 # serializes records with ids 1 through 10
-  /contacts/records/1,5,10
-  /contacts/records/1-10,20-30
-  /contacts/pages/1-10 # serializes the first 10 records
-  /contacts/create/firstname=Laszlo&lastname=Moholy-Nogy # create
-  /contacts/update/id=40&firstname=Victory # update
-  /contacts/delete/id=40 # delete
-
-=== Security
-It is important to note that the REST API controllers do no authorization or authentication.  Any client can invoke any API call.  It is not safe to rely on client-side logic to insure that the client only makes authorized calls, as the client is an untrusted environment and can easily be spoofed.  (This is true for any web application, not just OpenLaszlo applications.)
-
-Use a +before_filter+ or {Model Security}[perens.com/FreeSoftware/ModelSecurity/] to lock down your application before deploying it.
 
 == Requirements
 
-* Ruby -v of 1.8.2 (25-05-2004) or 1.8.3
-* Rails 0.14.2 or later
-* Subversion[http://subversion.tigris.org/] (so that <tt>script/plugin</tt> can find this package)
+* Rails 2.0 or later.  (Might work with earlier versions, but is untested with them.)
 * {OpenLaszlo 3.1 or later}[openlaszlo.org]
 * The {OpenLaszlo ruby gem}[ropenlaszlo.rubyforge.org]
+
 
 == Installation
 0: Install OpenLaszlo, Ruby, and Ruby on Rails.
@@ -62,22 +47,22 @@ Use a +before_filter+ or {Model Security}[perens.com/FreeSoftware/ModelSecurity/
 
 4: Set your +OPENLASZLO_URL+ environment variable to the web location of the Open<tt></tt>Laszlo server; for example, <tt>http</tt><tt>://localhost:8080/lps-3.1.1</tt>.  This step is optional in other platforms (although it makes compilation faster), but is {mandatory on Windows}[OpenLaszlo bug 1428}[www.openlaszlo.org/jira/browse/LPP-1428].
 
+
 == Usage
 
 In your RAILS application directory:
 
-1: Create a REST controller:
-  > ./script/generate rest_controller contacts
-
-2: Create an applet, and a view that displays it:
+1: Create an applet, and a view that displays it:
   > ./script/generate applet contacts applet
 
-3: Compile the applet:
+2: Compile the applet:
   > rake applets
 
 Now launch the server (<tt>script/server</tt>), and you can view your applet at <tt>ht</tt><tt>tp:127.0.0.1:3000/contacts/applet</tt>.
 
+
 == Resources
+
 * {OpenLaszlo Plugin project page}[rubyforge.org/projects/laszlo-plugin]
 * {OpenLaszlo Gem project page}[rubyforge.org/projects/ropenlaszlo]
 * {OpenLaszlo Project Page}[openlaszlo.org/]
@@ -85,16 +70,10 @@ Now launch the server (<tt>script/server</tt>), and you can view your applet at 
 * {Calendar example application}[osteele.com/sources/ruby/openlaszlo]
 * {Laszlo on Rails mailing list}[groups.google.com/group/laszlo-on-rails]
 
-== Upgrade Instructions
-If you are upgrading from version 0.6.2 or earlier *and* you have used the +rest_scaffold+ generator to create a controller that includes method definition bodies, you will need to update these bodies as follows:
-
-In the definition for +records+, change
-  records = ranges.pages_for <<class_name>>
-to
-  records = <<class_name>>.find_pages ranges
-where <<class_name>> is the name of the model class.
 
 == Credits
+
 * {Oliver Steele}[osteele.com] --- Ruby code
-* Geoff Stearns (unwitting contributor) --- FlashObject[blog.deconcept.com/flashobject/] JavaScript
-* Rails team --- This plugin extends and in some cases borrows code from the Rails implementation
+* Max Carlson --- Ruby code
+
+FlashObject[blog.deconcept.com/flashobject/] is by Geoff Stearns.
