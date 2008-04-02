@@ -1,7 +1,3 @@
-# Author:: Oliver Steele
-# Copyright:: Copyright (c) 2006 Oliver Steele.  All rights reserved.
-# License:: MIT License.
-
 require 'action_view'
 
 module ActionView #:nodoc:
@@ -12,6 +8,7 @@ module ActionView #:nodoc:
           include InstanceMethods
         end
       end
+      
       module InstanceMethods
         # Returns a path to a Flash object.  The +src+ can be supplied as:
         #
@@ -19,8 +16,8 @@ module ActionView #:nodoc:
         # * a file name such "applet.swf"
         # * a file name without an extension, such as "applet"
         # All of the above are expanded to "/assets/applet.swf"
-        def flashobject_path source
-          compute_public_path source, 'applets', 'swf'
+        def flashobject_path(source)
+          compute_public_path(source, 'applets', 'swf')
         end
         
         # Returns a set of tags that display a Flash object within an
@@ -44,22 +41,23 @@ module ActionView #:nodoc:
         # (This method is called flashobject_tags instead of flashobject_tag
         # because it returns a *sequence* of HTML tags: a +div+, followed by
         # a +script+.)
-        def flashobject_tags source, options={}
-          path = flashobject_path source
+        def flashobject_tags(source, options={})
+          path = flashobject_path(source)
           verify_file_exists = options.fetch(:verify_file_exists, ENV['RAILS_ENV'] == 'development')
-          if verify_file_exists and not File.exists? File.join(RAILS_ROOT, 'public', path)
-            return "<div><strong>Warning:</strong> The file <code>#{File.join('public', path)}</code> does not exist.  Did you forget to execute <tt>rake applets</tt>?</div>"
+          if verify_file_exists and not File.exists?(File.join(RAILS_ROOT, 'public', path).sub(/\?\d+/, ''))
+            return "<div><strong>Warning:</strong> The file <code>#{File.join('public', path)}</code> does not exist.  Execute <tt>rake openlaszlo:build:applets</tt> to create it.</div>"
           end
           div_id = options[:div_id] || 'flashcontent'
           flash_id = options[:flash_id] || File.basename(source, '.swf')
-          width, height = (options[:size]||'100%x100%').scan(/^(\d*%?)x(\d*%?)$/).first
+          width = options[:width] || '100%'
+          height = options[:height] || '100%'
           background_color = options[:background_color] || '#ffffff'
           flash_version = options[:flash_version] || 7
           variables = options.fetch(:variables, {:lzproxied => false})
           parameters = options.fetch(:parameters, {:scale => 'noscale'})
           fallback_html = options[:fallback_html] || %q{<p>Requires the Flash plugin.  If the plugin is already installed, click <a href="?detectflash=false">here</a>.</p>}
           if options.fetch(:check_for_javascript_include, ENV['RAILS_ENV'] == 'development')
-            check_for_javascript ="if (typeof FlashObject == 'undefined') document.getElementById('#{div_id}').innerHTML = '<strong>Warning:</strong> FlashObject is undefined.  Did you forget to execute <tt>rake update_javascripts</tt>, or to include <tt>&lt;%= javascript_include_tag :defaults %></tt> in your view file?';"
+            check_for_javascript ="if (typeof FlashObject == 'undefined') document.getElementById('#{div_id}').innerHTML = '<strong>Warning:</strong> FlashObject is undefined.  Did you forget to include <tt>&lt;%= javascript_include_tag :defaults %></tt> in your view file?';"
           end
           return <<-"EOF"
           <div id="#{div_id}" style="height: #{height}">

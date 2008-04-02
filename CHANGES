@@ -4,6 +4,7 @@
 * removed REST library and generators.  this functionality is now built into Rails.
 * move rake tasks into openlaszlo namespace
 * plugin init installs javascript
+* helper takes seperate :width, :height instead of :dimensions
 
 == 0.8.1 (2006-01-28)
 * updated rest_scaffold generator to match lib/rest_scaffolding.rb
