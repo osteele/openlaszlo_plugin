@@ -21,9 +21,15 @@ information.
 
 === Rails Tasks
 
-The plugin defines the <tt>:applets</tt> rake task.  This task compiles the OpenLaszlo applets in the <tt>app/applets</tt> directory.
+The plugin defines the following tasks:
+  rake openlaszlo:build:applets
+    Recompile any applets in the app/applets directory
 
-It also extends +update_javascripts+ to install the <tt>flashobject.js</tt> JavaScript file in <tt>public/javascripts</tt>.  This file contains support for displaying Flash applets within an HTML page; ActionView::Helpers::FlashObjectHelper::flashobject_tags depends on this.  The <tt>:applets</tt> task ensures that this is present as well.
+  rake openlaszlo:clobber:applets
+    Clean the applets directory
+
+  rake openlaszlo:install:javascripts
+    Copies the OpenLaszlo javascripts to public/javascripts
 
 
 == Requirements
