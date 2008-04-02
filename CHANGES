@@ -3,6 +3,7 @@
 == Head
 * removed REST library and generators.  this functionality is now built into Rails.
 * move rake tasks into openlaszlo namespace
+* plugin init installs javascript
 
 == 0.8.1 (2006-01-28)
 * updated rest_scaffold generator to match lib/rest_scaffolding.rb
