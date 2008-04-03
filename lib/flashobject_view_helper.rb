@@ -71,7 +71,19 @@ module ActionView #:nodoc:
           fo.write("#{div_id}");
           //]]>
           </script>
-EOF
+          EOF
+        end
+
+        # This method is equivalent to flashobject_tags except, that in
+        # development mode it will also recompile the applet if it is
+        # older than the files in the applet source directory.
+        def applet_tags(source, options={})
+          path = flashobject_path(source)
+          if ENV['RAILS_ENV'] == 'development' and (ENV['OPENLASZLO_PATH'] || ENV['OPENLASZLO_URL'])
+            require 'openlaszlo_build_support'
+            OpenLaszlo::Rails::update_asset(path)
+          end
+          flashobject_tags(source, options)
         end
       end
     end
