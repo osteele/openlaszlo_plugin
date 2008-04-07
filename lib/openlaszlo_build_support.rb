@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'openlaszlo'
 
 module OpenLaszlo
@@ -7,20 +8,26 @@ module OpenLaszlo
       # one of the names below, where {dirname} is the name of the directory
       # that contains the file.
       def self.main_file_names; %w{main canvas applet application {dirname}}; end
+
+      def self.from_source(source)
+        self.new(source)
+      end
       
       def self.from_target(target)
-        #raise "from #{target}: #{source_dir_for_target(target)}"
         self.new(source_dir_for_target(target), target)
       end
       
       attr_reader :source_dir, :target
       
-      def initialize(source_dir, target)
-        @source_dir = source_dir
+      def initialize(source, target=nil)
+        source = File.dirname(source) if File.ftype(source) == 'file'
+        target ||= File.join(RAILS_ROOT, 'public/applets',
+                             File.basename(source, '.lzx')+'.swf')
+        @source_dir = source
         @target = target
       end
 
-      def main_file
+      def source
         self.class.main_file_names.map { |name|
           name = name.sub(/^\{dirname\}$/, File.basename(source_dir))
           pathname = File.join(source_dir, name) + '.lzx'
@@ -35,7 +42,8 @@ module OpenLaszlo
       end
       
       def compile
-        OpenLaszlo::compile(main_file, :output => target)
+        FileUtils::mkdir_p File.dirname(target)
+        OpenLaszlo::compile(source, :output => target)
       end
       
       def update
@@ -49,17 +57,9 @@ module OpenLaszlo
       end
     end
 
-    def self.applet_mains
-      FileList[File.join(RAILS_ROOT, 'app/applets/*/*.lzx')].select { |path|
-        Applet.main_file_names.map { |n| n.sub(/^\{dirname\}$/, File.basename(File.dirname(path))) }.
-          include?(File.basename(path, '.lzx')) }
-    end
-    
-    def self.each_applet(&block)
-      applet_mains.each do |source|
-        target = File.join(RAILS_ROOT, 'public/applets',
-                           File.basename(source, '.lzx')+'.swf')
-        yield source, target
+    def self.applets(&block)
+      applet_mains.map do |source|
+        Applet.from_source(source)
       end
     end
     
@@ -69,10 +69,12 @@ module OpenLaszlo
     end
     
     private
-    def self.source_dir_for_asset(path)
-      path = File.expand_path(path).sub(File.expand_path(RAILS_ROOT), '')
-      name = path.sub(/^\/public\/applets\//, '').sub(/(\.swf)?(\?\d+)?$/, '')
-      return File.join(RAILS_ROOT, 'app/applets', name)
+    def self.applet_mains
+      FileList[File.join(RAILS_ROOT, 'app/applets/*/*.lzx')].select { |path|
+        Applet.main_file_names.map { |name|
+          name.sub(/^\{dirname\}$/, File.basename(File.dirname(path)))
+        }.include?(File.basename(path, '.lzx'))
+      }
     end
   end
 end
