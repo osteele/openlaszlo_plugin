@@ -15,7 +15,7 @@ Example:
 
     This will create:
         app/applets/contacts/contacts.lzx
-        app/views/contacts/applet.rhtml
+        app/views/contacts/applet.html.erb
 
 Notes:
     The pathname to the applet does not incorporate the name of

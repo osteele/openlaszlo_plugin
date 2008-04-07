@@ -5,6 +5,8 @@
 * add applet directory to rake stats
 * add js files to rake notes
 * new openlaszlo:update:applets task recompiles only if stale
+* view template: *.rhtml -> *.html.erb
+* view template: flashobject_tags -> applet_tags
 
 == 0.9 (2008-04-02)
 * removed REST library and generators.  this functionality is now built into Rails.
