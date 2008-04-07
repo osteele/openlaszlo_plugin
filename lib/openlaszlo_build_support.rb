@@ -71,7 +71,10 @@ module OpenLaszlo
     
     private
     def self.applet_mains
-      FileList[File.join(RAILS_ROOT, 'app/applets/*/*.lzx')].select { |path|
+      (FileList[File.join(RAILS_ROOT, 'app/applets/*/*.lzx')] -
+         FileList[File.join(RAILS_ROOT, 'app/applets/lib/*.lzx')] -
+         FileList[File.join(RAILS_ROOT, 'app/applets/spec/*.lzx')] -
+         FileList[File.join(RAILS_ROOT, 'app/applets/test/*.lzx')]).select { |path|
         Applet.main_file_names.map { |name|
           name.sub(/^\{dirname\}$/, File.basename(File.dirname(path)))
         }.include?(File.basename(path, '.lzx'))

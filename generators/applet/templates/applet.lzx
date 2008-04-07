@@ -1,11 +1,6 @@
-<!--
-# Author:: Oliver Steele, Max Carlson
-# Copyright:: Copyright (c) 2006 Oliver Steele. Max Carlson  All rights reserved.
-# License:: MIT License.
--->
 <canvas title="Laszlo on Rails" proxied="false">
-    <include href="../modelcontroller.lzx"/>
-    <include href="../modelgrid.lzx"/>
+    <include href="../lib/modelcontroller.lzx"/>
+    <include href="../lib/modelgrid.lzx"/>
     <dataset name="<%= singular_name %>Data">
         <records/>
     </dataset>

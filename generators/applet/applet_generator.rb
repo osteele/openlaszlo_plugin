@@ -16,9 +16,11 @@ class AppletGenerator < Rails::Generator::NamedBase
         path = File.join 'app/views', class_path, file_name, "#{action}.html.erb"
         m.template 'view.html.erb', path, :assigns => {:applet => action}
 
-        m.template 'datamanager.lzx', File.join('app/applets', 'datamanager.lzx')
-        m.template 'modelcontroller.lzx', File.join('app/applets', 'modelcontroller.lzx')
-        m.template 'modelgrid.lzx', File.join('app/applets', 'modelgrid.lzx')
+        lib = File.join('app/applets/lib')
+        m.directory lib
+        m.template 'datamanager.lzx', File.join(lib, 'datamanager.lzx')
+        m.template 'modelcontroller.lzx', File.join(lib, 'modelcontroller.lzx')
+        m.template 'modelgrid.lzx', File.join(lib, 'modelgrid.lzx')
       end
     end
   end
