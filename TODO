@@ -1,18 +1,7 @@
 = OpenLaszlo Rails Plugin -- To Do List
 
-== Packaging
-* Unit tests
+* Proxy debugger
+* More specs
 * Example
 * Modules are somewhat muddled
-
-== Tests
-* "-" range expression
-
-== Corners
-* Applet generator: check for applet name collision
-
-== New features
-* Add scaffolding prefix?  Use simpler inclusion mechanism, if not.
-* Read width, height from canvas
-* Warn when applet needs recompilation
-* Automatic recompilation
+* Add back scaffolding?

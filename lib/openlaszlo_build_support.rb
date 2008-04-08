@@ -15,17 +15,18 @@ module OpenLaszlo
       end
       
       def self.from_target(target)
-        self.new(source_dir_for_target(target), target)
+        self.new(source_dir_for_target(target), target, options_from_target(target))
       end
       
-      attr_reader :source_dir, :target
+      attr_reader :source_dir, :target, :options
       
-      def initialize(source, target=nil)
+      def initialize(source, target=nil, options={})
         source = File.dirname(source) if File.ftype(source) == 'file'
         target ||= File.join(RAILS_ROOT, 'public/applets',
                              File.basename(source, '.lzx')+'.swf')
         @source_dir = source
         @target = target
+        @options = options
       end
 
       def source
@@ -44,7 +45,9 @@ module OpenLaszlo
       
       def compile
         FileUtils::mkdir_p File.dirname(target)
-        OpenLaszlo::compile(source, :output => target)
+        compilation_options = options.clone
+        compilation_options[:output] = target
+        OpenLaszlo::compile(source, compilation_options)
       end
       
       def update
@@ -52,9 +55,16 @@ module OpenLaszlo
       end
       
       def self.source_dir_for_target(target)
+        target = target.sub(/-debug(\.swf)/, '\1')
         relative = File.expand_path(target).sub(File.expand_path(RAILS_ROOT), '')
         name = relative.sub(/^\/public\/applets\//, '').sub(/(\.swf)?(\?\d+)?$/, '')
         return File.join(RAILS_ROOT, 'app/applets', name)
+      end
+      
+      def self.options_from_target(target)
+        options = {}
+        options[:debug] = true if target =~ /-debug(\.swf)/
+        options
       end
     end
 

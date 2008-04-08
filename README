@@ -9,6 +9,18 @@ For example, the following shell command will create a Rails model named +Contac
   > ./script/generate applet contact applet
 
 
+=== View Helper
+
+The plugin introduces two view helpers.  +flashobject_tags+ generates
+code that embeds a flash object in the page (using the
+FlashObject[blog.deconcept.com/flashobject/] javascript library).
++applet_tags+ additionally recompiles the applet if it is out of date,
+and swaps in a version of the applet compiled with the debug flag set
+if the +debug+ query parameter is present in the request that resulted
+in the call -- both of these additional features are available only in
+development mode.
+
+
 === Generators
 
 The plugin defines the following generator, that can be used to

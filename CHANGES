@@ -9,6 +9,7 @@
 * view template: flashobject_tags -> applet_tags
 * move applet lib files -> applets/lib
 * don't look for applets in applets/{lib,spec,tests}
+* compile with debug mode if ?debug is present
 
 == 0.9 (2008-04-02)
 * removed REST library and generators.  this functionality is now built into Rails.

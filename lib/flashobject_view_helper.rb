@@ -59,7 +59,7 @@ module ActionView #:nodoc:
           if options.fetch(:check_for_javascript_include, ENV['RAILS_ENV'] == 'development')
             check_for_javascript ="if (typeof FlashObject == 'undefined') document.getElementById('#{div_id}').innerHTML = '<strong>Warning:</strong> FlashObject is undefined.  Did you forget to include <tt>&lt;%= javascript_include_tag :defaults %></tt> in your view file?';"
           end
-          return <<-"EOF"
+          return(<<-"EOF")
           <div id="#{div_id}" style="height: #{height}">
             #{fallback_html}
           </div>
@@ -74,13 +74,23 @@ module ActionView #:nodoc:
           EOF
         end
 
-        # This method is equivalent to flashobject_tags except, that in
-        # development mode it will also recompile the applet if it is
-        # older than the files in the applet source directory.
+        # This method is equivalent to flashobject_tags except, that
+        # in development mode it will also recompile the applet if it
+        # is older than the files in the applet source directory.
+        #
+        # In addition, if the <code>debug</code> url query parameter
+        # is present in the development mode, this method will
+        # generate code that includes a version of the applet with the
+        # debug flag set, instead.
         def applet_tags(source, options={})
           path = flashobject_path(source)
           if ENV['RAILS_ENV'] == 'development' and (ENV['OPENLASZLO_PATH'] || ENV['OPENLASZLO_URL'])
             require 'openlaszlo_build_support'
+            if params.include?('debug')
+              options[:flash_id] ||= File.basename(source, '.swf')
+              source += '-debug'
+              path = flashobject_path(source)
+            end
             OpenLaszlo::Rails::update_asset(path)
           end
           flashobject_tags(source, options)
