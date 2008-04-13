@@ -1,7 +1,9 @@
 = OpenLaszlo Rails Plugin -- Change History
 
 == trunk
-* new helper +applet_tags+ recompiles applet during development
+* upgraded flashobject.js -> swfobject.js
+* +flashobject_tags+ -> +swfobject_tag+
+* new helper +applet_tag+ recompiles applet during development
 * add applet directory to rake stats
 * add js files to rake notes
 * new openlaszlo:update:applets task recompiles only if stale
@@ -12,16 +14,16 @@
 * compile with debug mode if ?debug is present
 
 == 0.9 (2008-04-02)
-* removed REST library and generators.  this functionality is now built into Rails.
+* removed REST library and generators.  This functionality is now built into Rails.
 * move rake tasks into openlaszlo namespace
 * plugin init installs javascript
-* helper takes seperate :width, :height instead of :dimensions
+* helper takes separate :width, :height instead of :dimensions
 
 == 0.8.1 (2006-01-28)
 * updated rest_scaffold generator to match lib/rest_scaffolding.rb
 
 == 0.8.0 (2006-01-25)
-* Updated applet and applet generator with a more complete lcient-side implementation that supports paging, create, update and delete from a Laszlo grid.
+* Updated applet and applet generator with a more complete client-side implementation that supports paging, create, update and delete from a Laszlo grid.
 
 == 0.7.1 (2006-01-25)
 * Updated docs

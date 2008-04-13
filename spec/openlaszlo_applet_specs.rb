@@ -3,8 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../lib/openlaszlo_build_supp
 
 include OpenLaszlo::Rails
 
-RAILS_ROOT = '/path/to/rails/app'
-
 describe Applet do
   describe :source_dir_for_target do
     it 'should return the applet directory' do

@@ -11,10 +11,10 @@ For example, the following shell command will create a Rails model named +Contac
 
 === View Helper
 
-The plugin introduces two view helpers.  +flashobject_tags+ generates
+The plugin introduces two view helpers.  +swfobject_tag+ generates
 code that embeds a flash object in the page (using the
-FlashObject[blog.deconcept.com/flashobject/] javascript library).
-+applet_tags+ additionally recompiles the applet if it is out of date,
+Swfobject[blog.deconcept.com/flashobject/] javascript library).
++applet_tag+ additionally recompiles the applet if it is out of date,
 and swaps in a version of the applet compiled with the debug flag set
 if the +debug+ query parameter is present in the request that resulted
 in the call -- both of these additional features are available only in
@@ -87,11 +87,9 @@ Now launch the server (<tt>script/server</tt>), and you can view your applet at 
 * {Laszlo on Rails project page}[wiki.openlaszlo.org/Laszlo_on_Rails]
 * {Calendar example application}[osteele.com/sources/ruby/openlaszlo]
 * {Laszlo on Rails mailing list}[groups.google.com/group/laszlo-on-rails]
+* {swfobject}[http://code.google.com/p/swfobject/]
 
+== Authors
 
-== Credits
-
-* {Oliver Steele}[osteele.com] --- Ruby code
-* Max Carlson --- Ruby code
-
-FlashObject[blog.deconcept.com/flashobject/] is by Geoff Stearns.
+* {Oliver Steele}[osteele.com]
+* Max Carlson

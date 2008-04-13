@@ -1,5 +1,7 @@
 = OpenLaszlo Rails Plugin -- To Do List
 
+* Add back data connection
+* README in applet directory
 * Proxy debugger
 * More specs
 * Example
