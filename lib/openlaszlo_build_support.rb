@@ -39,7 +39,9 @@ module OpenLaszlo
       
       def uptodate?
         return false unless File.exists?(target)
-        return File.mtime(target) >= Dir[File.join(source_dir, '**/*')].map { |f|
+        source_files = Dir[File.join(source_dir, '**/*')] +
+          Dir[File.join(RAILS_ROOT, 'lib/**/*')]
+        return File.mtime(target) >= source_files.map { |f|
           File.mtime(f) rescue nil }.compact.max
       end
       

@@ -66,28 +66,6 @@ module ActionView #:nodoc:
           </script>
           EOF
         end
-
-        # This method is equivalent to swfobject_tag except, that
-        # in development mode it will also recompile the applet if it
-        # is older than the files in the applet source directory.
-        #
-        # In addition, if the <code>debug</code> url query parameter
-        # is present in the development mode, this method will
-        # generate code that includes a version of the applet with the
-        # debug flag set, instead.
-        def applet_tag(source, options={})
-          path = swfobject_path(source)
-          if ENV['RAILS_ENV'] == 'development' and (ENV['OPENLASZLO_PATH'] || ENV['OPENLASZLO_URL'])
-            require 'openlaszlo_build_support'
-            if params.include?('debug')
-              options[:flash_id] ||= File.basename(source, '.swf')
-              source += '-debug'
-              path = swfobject_path(source)
-            end
-            OpenLaszlo::Rails::update_asset(path)
-          end
-          swfobject_tag(source, options)
-        end
       end
     end
   end
