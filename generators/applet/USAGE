@@ -10,16 +10,25 @@ Description:
     not be suffixed with 'Controller'.  To create a controller within a
     module, specify the controller name as 'module/controller'.
     
-Example:
-    ./script/generate applet contacts applet
+Examples:
+    # Create an applet source directory
+    ./script/generate applet contacts
 
     This will create:
         app/applets/contacts/contacts.lzx
-        app/views/contacts/applet.html.erb
+        app/applets/lib/*
+
+    # Also create a controller and view to display the applet
+    ./script/generate applet contacts controller action
+
+    This will also create:
+        app/views/controllers/controller_controller.rb
+        app/views/helpers/controller_helper.rb
+        app/views/views/controller/action.html.erb
 
 Notes:
     The pathname to the applet does not incorporate the name of
-    the controller.  This accomodates the common case where there are
+    the controller.  This accommodates the common case where there are
     a small number of applets (maybe just one), that communicate with
     multiple controllers.  It does mean that 'generate applet addresses
     applet' will overwrite the applet created by 'generate applet contacts
