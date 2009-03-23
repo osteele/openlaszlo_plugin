@@ -1,5 +1,5 @@
 require 'fileutils'
-gem 'ropenlaszlo', '>=0.6.1'
+gem 'ropenlaszlo', '>=0.6.3'
 require 'openlaszlo'
 
 module OpenLaszlo
