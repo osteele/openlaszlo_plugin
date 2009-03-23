@@ -101,11 +101,11 @@
       this.createRef = null;
     </method>
 
-    <method event="oninit">
+    <handler name="oninit">
       this.schema.setSrc('http://localhost:3000/' + this.modelName + '/schema/');
       //Debug.write('http://localhost:3000/' + this.modelName + '/schema/'); 
       this.schema.doRequest();
-    </method>
+    </handler>
 
     <method name="gotSchema" args="ds"><![CDATA[
       var nodes = ds.childNodes[0].childNodes;

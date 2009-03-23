@@ -8,9 +8,9 @@
   <modelcontroller name="<%= singular_name %>Controller"
                    maindataset="$once{<%= singular_name %>Data}"
                    modelName="<%= singular_name %>">
-    <method event="oninit">
+    <handler name="oninit">
       this.loadRange(0, 22);						
-    </method>
+    </handler>
   </modelcontroller>
 
   <text>My source code is in <%= path %>.</text>
