@@ -46,7 +46,8 @@ module ActionView #:nodoc:
           width = options[:width] || '100%'
           height = options[:height] || '100%'
           background_color = options[:background_color] || '#ffffff'
-          flash_version = options[:flash_version] || 8
+          flash_version = options[:flash_version] || '8,0,24,0'
+          express_install_url = '/expressInstall.swf'
           variables = options.fetch(:variables, {:lzproxied => false})
           parameters = options.fetch(:parameters, {:scale => 'noscale'})
           fallback_html = options[:fallback_html] || %q{<p>Requires the Flash plugin.  If the plugin is already installed, click <a href="?detectflash=false">here</a>.</p>}
@@ -61,7 +62,7 @@ module ActionView #:nodoc:
           </div>
           <script type="text/javascript">//<![CDATA[
             #{check_for_javascript}
-            swfobject.embedSWF("#{path}", "#{id}", "#{width}", "#{height}", "#{flash_version}", #{variables.to_json}, #{parameters.to_json});
+            swfobject.embedSWF("#{path}", "#{id}", "#{width}", "#{height}", "#{flash_version}", #{express_install_url.to_json}, #{variables.to_json}, #{parameters.to_json});
           //]]>
           </script>
           EOF
