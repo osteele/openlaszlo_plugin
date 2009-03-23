@@ -1,209 +1,227 @@
 <!--
-# Author:: Max Carlson, Bill Shapiro
-# Copyright:: Copyright (c) 2006 Max Carlson and Bill Shapiro.  All rights reserved.
-# License:: MIT License.
+    # Author:: Max Carlson, Bill Shapiro
+    # Copyright:: Copyright (c) 2006 Max Carlson and Bill Shapiro.  All rights reserved.
+    # License:: MIT License.
 -->
 <library>
-    <include href="datamanager.lzx"/>
+  <include href="datamanager.lzx"/>
 
-    <class name="modelcontroller">
-        <attribute name="maindataset" value="null"/>
-        <attribute name="modelName" value="contact" type="string"/>
+  <class name="modelcontroller">
+    <attribute name="maindataset" value="null"/>
+    <attribute name="modelName" value="contact" type="string"/>
 
-        <attribute name="loaded" value="null"/>
-        <attribute name="maxsize" value="false"/>
-        <attribute name="laststart" value="null"/>
-        <attribute name="lasturl" value="null"/>
-        <attribute name="pagesize" value="10"/>
-        <attribute name="createRef" value="null"/>
-        <attribute name="updateRef" value="null"/>
-        <attribute name="removeRef" value="null"/>
+    <attribute name="loaded" value="null"/>
+    <attribute name="maxsize" value="false"/>
+    <attribute name="laststart" value="null"/>
+    <attribute name="lasturl" value="null"/>
+    <attribute name="pagesize" value="10"/>
+    <attribute name="createRef" value="null"/>
+    <attribute name="updateRef" value="null"/>
+    <attribute name="removeRef" value="null"/>
 
-        <method name="loadRange" args="start, end">
-        <![CDATA[
-            if (this.loaded == null) this.loaded = [];
-            if (start < 0 || start + '' == 'NaN') start = 0;
-            start = start * 1;
-            if (end == null || end <= start || end + '' == 'NaN') end = (start + this.pagesize);
-
-            if (this.maxsize != false && end > this.maxsize) end = maxsize;
-
-            var o = '';
-            var sep = '';
-            var lasti = -1;
-            var rangeStart = -1;
-            var rangeEnd = -1;
-            for (var i = start; i < end; i++) {
-                if (this.loaded[i] == true) continue;
-                
-                o += sep + i;
-                sep = ',';
-                lasti = i;
-            }
-            if (o == '') return;
-            this.laststart = start;
-            
-            var url = 'http://localhost:3000/' + this.modelName + '/page/' + o;
-            if (lasturl == url) return;
-            this.lasturl = url;
-
-            //Debug.write('http://localhost:3000/' + this.modelName + '/page/' + o); 
-            var ds = this.dataman.doRequest(url);
-        ]]>
-        </method>
+    <method name="loadRange" args="start, end"><![CDATA[
+      if (this.loaded == null) this.loaded = [];
+      if (start < 0 || start + '' == 'NaN') start = 0;
+      start = start * 1;
+      if (end == null || end <= start || end + '' == 'NaN')
+        end = (start + this.pagesize);
+      
+      if (this.maxsize != false && end > this.maxsize) end = maxsize;
+      
+      var o = '';
+      var sep = '';
+      var lasti = -1;
+      var rangeStart = -1;
+      var rangeEnd = -1;
+      for (var i = start; i < end; i++) {
+        if (this.loaded[i] == true) continue;
         
-        <method name="handleError" args="ds">
-            Debug.write('Got error: ' + ds);
-            this.removeRef = null;
-            this.updateRef = null;
-            this.createRef = null;
-        </method>
-        <method name="gotchange" args="c">
-            //Debug.write('gotChange', c);
-            if (c.what != 'attributes') return;
-            var o = '';
-            var sep ='';
-            var a = c.who.attributes;
-            for (i in a) {
-                o += sep + i + '=' + escape(a[i]);
-                sep = '&amp;';
-            }
-            if (a['id'] * 1 > 1) {
-                if (this.updateRef != null) return;
-                this.updateRef = c.who;
-                this.updater.setSrc('http://localhost:3000/' + this.modelName + '/update/' + o);
-                //Debug.write('http://localhost:3000/' + this.modelName + '/update/' + o);
-                this.updater.doRequest();
-            } else {
-                if (this.createRef != null) return;
-                this.createRef = c.who;
-                this.creator.setSrc('http://localhost:3000/' + this.modelName + '/create/' + o);
-                //Debug.write('http://localhost:3000/' + this.modelName + '/create/' + o);
-                this.creator.doRequest();
-            }
-        </method>
-        <method name="gotUpdate" args="ds">
-            //Debug.write('Got update: ' + ds);
-            this.updateRef = null;
-        </method>
-        <method name="gotCreate" args="ds">
-            var id = ds.childNodes[0].childNodes[0].data;
-            this.createRef.setAttr('id', id);
-            //Debug.write('gotCreate', id, this.createRef); 
+        o += sep + i;
+        sep = ',';
+        lasti = i;
+      }
+      if (o == '') return;
+      this.laststart = start;
+      
+      var url = 'http://localhost:3000/' + this.modelName + '/page/' + o;
+      if (lasturl == url) return;
+      this.lasturl = url;
+      
+      //Debug.write('http://localhost:3000/' + this.modelName + '/page/' + o); 
+      var ds = this.dataman.doRequest(url);
+    ]]></method>
+    
+    <method name="handleError" args="ds">
+      Debug.write('Got error: ' + ds);
+      this.removeRef = null;
+      this.updateRef = null;
+      this.createRef = null;
+    </method>
 
-            var c = this.maindataset.getPointer();
-            var nodes = c.p.childNodes[0].childNodes;
-            var dummynodes = LzDataElement.makeNodeList(1, this.modelName);
-            nodes = nodes.concat(dummynodes);
-            c.p.childNodes[0].setChildNodes(nodes);
-            this.createRef = null;
-        </method>
-        <method event="oninit">
-            this.schema.setSrc('http://localhost:3000/' + this.modelName + '/schema/');
-            //Debug.write('http://localhost:3000/' + this.modelName + '/schema/'); 
-            this.schema.doRequest();
-        </method>
-        <method name="gotSchema" args="ds">
-        <![CDATA[
-            var nodes = ds.childNodes[0].childNodes;
-            //Debug.write('schema', nodes);
+    <method name="gotchange" args="c">
+      //Debug.write('gotChange', c);
+      if (c.what != 'attributes') return;
+      var o = '';
+      var sep ='';
+      var a = c.who.attributes;
+      for (i in a) {
+        o += sep + i + '=' + escape(a[i]);
+        sep = '&amp;';
+      }
+      if (a['id'] * 1 > 1) {
+        if (this.updateRef != null) return;
+        this.updateRef = c.who;
+        this.updater.setSrc('http://localhost:3000/' + this.modelName + '/update/' + o);
+        //Debug.write('http://localhost:3000/' + this.modelName + '/update/' + o);
+        this.updater.doRequest();
+      } else {
+        if (this.createRef != null) return;
+        this.createRef = c.who;
+        this.creator.setSrc('http://localhost:3000/' + this.modelName + '/create/' + o);
+        //Debug.write('http://localhost:3000/' + this.modelName + '/create/' + o);
+        this.creator.doRequest();
+      }
+    </method>
 
-            var i
-            var l = nodes.length;
-            var attrs = {};
-            for (var i = 0; i < l; i++) {
-                var a = nodes[i].attributes;
-                attrs[a.name] = '';
-            }
+    <method name="gotUpdate" args="ds">
+      //Debug.write('Got update: ' + ds);
+      this.updateRef = null;
+    </method>
 
-            var c = this.maindataset.getPointer();
-            var node = new LzDataElement(this.modelName, attrs);
-            c.p.childNodes[0].setChildNodes([node, node]);
-            //Debug.write('Schema node', node); 
-            //Debug.write('Schema ds', c.serialize()); 
+    <method name="gotCreate" args="ds">
+      var id = ds.childNodes[0].childNodes[0].data;
+      this.createRef.setAttr('id', id);
+      //Debug.write('gotCreate', id, this.createRef); 
 
-        ]]>
-        </method>
-        <method name="remove" args="s">
-            if (s == null || this.removeRef != null) return;
-            var ids = [];
-            for (i in s) {
-                ids[i] = s[i].getNodeAttribute('id');
-                if (ids[i] == null) return;
-            }
+      var c = this.maindataset.getPointer();
+      var nodes = c.p.childNodes[0].childNodes;
+      var dummynodes = LzDataElement.makeNodeList(1, this.modelName);
+      nodes = nodes.concat(dummynodes);
+      c.p.childNodes[0].setChildNodes(nodes);
+      this.createRef = null;
+    </method>
 
-            this.removeRef = s;
+    <method event="oninit">
+      this.schema.setSrc('http://localhost:3000/' + this.modelName + '/schema/');
+      //Debug.write('http://localhost:3000/' + this.modelName + '/schema/'); 
+      this.schema.doRequest();
+    </method>
 
-            var o = ids.join(',');
-            this.remover.setSrc('http://localhost:3000/' + this.modelName + '/delete/' + o);
-            //Debug.write('http://localhost:3000/' + this.modelName + '/delete/' + o);
-            this.remover.doRequest();
-        </method>
-        <method name="gotRemove" args="ds">
-            var nodes = ds.childNodes[0].attributes.id.split(',');
-            var c = this.maindataset.getPointer();
-            c.selectChild();
-            for (var i in nodes) {
-                var p = this.modelName + '[@id="' + nodes[i] + '"]';
-                var n = c.xpathQuery(p)
-                if (! n) continue;
-                //Debug.write('delete', nodes[i], p, n); 
-                n.parentNode.removeChild(n);
-            }
-            this.removeRef = null;
-        </method>
-        
-        <datamanager name="dataman">
-            <method name="handle" args="ds,status,msg"> <![CDATA[
-                //Debug.write('parent.maindataset.serialize()', parent.maindataset.serialize());
-                //Debug.write('data', ds.data);
-                //Debug.write('ds', ds.childNodes[0].serialize()); 
+    <method name="gotSchema" args="ds"><![CDATA[
+      var nodes = ds.childNodes[0].childNodes;
+      //Debug.write('schema', nodes);
+      
+      var i
+      var l = nodes.length;
+      var attrs = {};
+      for (var i = 0; i < l; i++) {
+        var a = nodes[i].attributes;
+        attrs[a.name] = '';
+      }
 
-                var ms = ds.childNodes[0].getAttr('totalcount') * 1;
-                var l = ds.childNodes[0].getAttr('count') * 1;
-                var c = parent.maindataset.getPointer();
-                
-                if (parent.maxsize == false) {
-                    parent.changeDel = new LzDelegate(parent, 'gotchange', c.p, 'onDocumentChange');
-                    // set up new nodes
-                    parent.maindataset.setChildNodes([]);
-                    parent.maindataset.appendChild(ds.data);
+      var c = this.maindataset.getPointer();
+      var node = new LzDataElement(this.modelName, attrs);
+      c.p.childNodes[0].setChildNodes([node, node]);
+      //Debug.write('Schema node', node); 
+      //Debug.write('Schema ds', c.serialize()); 
+    ]]></method>
 
-                    var nodes = c.p.childNodes[0].childNodes;
-                    parent.setAttribute('maxsize', ms);
+    <method name="remove" args="s">
+      if (s == null || this.removeRef != null) return;
+      var ids = [];
+      for (i in s) {
+      ids[i] = s[i].getNodeAttribute('id');
+        if (ids[i] == null) return;
+      }
 
-                    // set up placeholders
-                    var end = parent.laststart + l;
-                    var dummynodes = LzDataElement.makeNodeList( (ms - end + 1), parent.modelName);
-                    nodes = nodes.concat(dummynodes);
-                } else {
-                    var nodes = c.p.childNodes[0].childNodes;
-                    var newnodes = ds.data.childNodes;
-                    var nl = newnodes.length;
-                    for (var i = 0; i < nl; i++) {
-                        var n = newnodes[i];
-                        if (! n['attributes']) {
-                            //Debug.write('bad node', n);
-                            continue;
-                        }
-                        var id = (n.attributes.id * 1) - 1;
-                        //Debug.write('node', id);
-                        nodes[id] = n;
-                        parent.loaded[id] = true;
-                    } 
-                }
-                
-                c.p.childNodes[0].setChildNodes(nodes);
-                //Debug.write('Load ds', c.serialize()); 
+      this.removeRef = s;
 
-                //Debug.write('data', parent.maindataset.data); 
-            ]]>    
-            </method>
-        </datamanager>
+      var o = ids.join(',');
+      this.remover.setSrc('http://localhost:3000/' + this.modelName + '/delete/' + o);
+      //Debug.write('http://localhost:3000/' + this.modelName + '/delete/' + o);
+      this.remover.doRequest();
+    </method>
+    <method name="gotRemove" args="ds">
+      var nodes = ds.childNodes[0].attributes.id.split(',');
+      var c = this.maindataset.getPointer();
+      c.selectChild();
+      for (var i in nodes) {
+        var p = this.modelName + '[@id="' + nodes[i] + '"]';
+        var n = c.xpathQuery(p)
+        if (! n) continue;
+        //Debug.write('delete', nodes[i], p, n); 
+        n.parentNode.removeChild(n);
+      }
+      this.removeRef = null;
+    </method>
+    
+    <datamanager name="dataman">
+      <method name="handle" args="ds,status,msg"> <![CDATA[
+      //Debug.write('parent.maindataset.serialize()', parent.maindataset.serialize());
+      //Debug.write('data', ds.data);
+      //Debug.write('ds', ds.childNodes[0].serialize()); 
 
-        <dataset name="schema" ondata="parent.gotSchema(this);" onerror="parent.handleError(this)" ontimeout="parent.handleError(this)" type="http"/>
-        <dataset name="updater" ondata="parent.gotUpdate(this);" onerror="parent.handleError(this)" ontimeout="parent.handleError(this)" type="http"/>
-        <dataset name="creator" ondata="parent.gotCreate(this);" onerror="parent.handleError(this)" ontimeout="parent.handleError(this)" type="http"/>
-        <dataset name="remover" ondata="parent.gotRemove(this);" onerror="parent.handleError(this)" ontimeout="parent.handleError(this)" type="http"/>
-    </class>
+      var ms = ds.childNodes[0].getAttr('totalcount') * 1;
+      var l = ds.childNodes[0].getAttr('count') * 1;
+      var c = parent.maindataset.getPointer();
+      
+      if (parent.maxsize == false) {
+        parent.changeDel = new LzDelegate(parent, 'gotchange', c.p, 'onDocumentChange');
+        // set up new nodes
+        parent.maindataset.setChildNodes([]);
+        parent.maindataset.appendChild(ds.data);
+
+        var nodes = c.p.childNodes[0].childNodes;
+        parent.setAttribute('maxsize', ms);
+
+        // set up placeholders
+        var end = parent.laststart + l;
+        var dummynodes = LzDataElement.makeNodeList( (ms - end + 1), parent.modelName);
+        nodes = nodes.concat(dummynodes);
+      } else {
+        var nodes = c.p.childNodes[0].childNodes;
+        var newnodes = ds.data.childNodes;
+        var nl = newnodes.length;
+        for (var i = 0; i < nl; i++) {
+        var n = newnodes[i];
+        if (! n['attributes']) {
+          //Debug.write('bad node', n);
+          continue;
+        }
+        var id = (n.attributes.id * 1) - 1;
+        //Debug.write('node', id);
+        nodes[id] = n;
+        parent.loaded[id] = true;
+        } 
+      }
+      
+      c.p.childNodes[0].setChildNodes(nodes);
+      //Debug.write('Load ds', c.serialize()); 
+
+      //Debug.write('data', parent.maindataset.data); 
+      ]]>    
+      </method>
+    </datamanager>
+
+    <dataset name="schema"
+             ondata="parent.gotSchema(this)"
+             onerror="parent.handleError(this)"
+             ontimeout="parent.handleError(this)"
+             type="http"/>
+    <dataset name="updater"
+             ondata="parent.gotUpdate(this)"
+             onerror="parent.handleError(this)"
+             ontimeout="parent.handleError(this)"
+             type="http"/>
+    <dataset name="creator"
+             ondata="parent.gotCreate(this)"
+             onerror="parent.handleError(this)"
+             ontimeout="parent.handleError(this)"
+             type="http"/>
+    <dataset name="remover"
+             ondata="parent.gotRemove(this)"
+             onerror="parent.handleError(this)"
+             ontimeout="parent.handleError(this)"
+             type="http"/>
+  </class>
 </library>
