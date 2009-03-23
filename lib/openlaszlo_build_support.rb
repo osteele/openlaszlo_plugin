@@ -72,6 +72,12 @@ module OpenLaszlo
                            "with the command-line compiler"
                          end
         ActiveRecord::Base.logger.info "Compiled #{name} applet#{which_compiler}" rescue nil
+        if results[:warnings] and results[:warnings].any?
+          ActiveRecord::Base.logger.warn "Warnings:" rescue puts "Warnings:"
+          results[:warnings].each do |warning|
+            ActiveRecord::Base.logger.warn warning rescue puts warning
+          end
+        end
       end
       
       def update
