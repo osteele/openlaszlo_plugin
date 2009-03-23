@@ -1,5 +1,5 @@
 require 'fileutils'
-gem 'ropenlaszlo', '>=0.5'
+gem 'ropenlaszlo', '>=0.6.1'
 require 'openlaszlo'
 
 module OpenLaszlo
@@ -18,9 +18,25 @@ module OpenLaszlo
         self.new(source_dir_for_target(target), target, options_from_target(target))
       end
       
-      attr_reader :source_dir, :target, :options
+      def self.source_dir_for_target(target)
+        target = target.sub(/-debug(\.swf)/, '\1')
+        relative = File.expand_path(target).sub(File.expand_path(RAILS_ROOT), '')
+        name = relative.sub(/^\/public\/applets\//, '').sub(/(\.swf)?(\?\d+)?$/, '')
+        return File.join(RAILS_ROOT, 'app/applets', name)
+      end
+      
+      def self.options_from_target(target)
+        options = {}
+        options[:debug] = true if target =~ /-debug(\.swf)/
+        options
+      end
+    end
+
+    class Applet
+      attr_reader :name, :source_dir, :target, :options
       
       def initialize(source, target=nil, options={})
+        @name = File.basename(source)
         source = File.dirname(source) if File.ftype(source) == 'file'
         target ||= File.join(RAILS_ROOT, 'public/applets',
                              File.basename(source, '.lzx')+'.swf')
@@ -49,24 +65,17 @@ module OpenLaszlo
         FileUtils::mkdir_p File.dirname(target)
         compilation_options = options.clone
         compilation_options[:output] = target
-        OpenLaszlo::compile(source, compilation_options)
+        results = OpenLaszlo::compile(source, compilation_options)
+        which_compiler = case results[:compiler]
+                         when OpenLaszlo::CompileServer
+                         when OpenLaszlo::CommandLineCompiler then
+                           "with the command-line compiler"
+                         end
+        ActiveRecord::Base.logger.info "Compiled #{name} applet#{which_compiler}" rescue nil
       end
       
       def update
         compile unless uptodate?
-      end
-      
-      def self.source_dir_for_target(target)
-        target = target.sub(/-debug(\.swf)/, '\1')
-        relative = File.expand_path(target).sub(File.expand_path(RAILS_ROOT), '')
-        name = relative.sub(/^\/public\/applets\//, '').sub(/(\.swf)?(\?\d+)?$/, '')
-        return File.join(RAILS_ROOT, 'app/applets', name)
-      end
-      
-      def self.options_from_target(target)
-        options = {}
-        options[:debug] = true if target =~ /-debug(\.swf)/
-        options
       end
     end
 

@@ -31,6 +31,9 @@ module ActionView #:nodoc:
         def applet_tag(source, options={})
           path = applet_path(source)
           if ENV['RAILS_ENV'] == 'development' and (ENV['OPENLASZLO_PATH'] || ENV['OPENLASZLO_URL'])
+            # This `require` is inside the conditional because we
+            # don't need this, or the gem that it requires, in
+            # production
             require 'openlaszlo_build_support'
             if params.include?('debug')
               options[:id] ||= File.basename(source, '.swf')
