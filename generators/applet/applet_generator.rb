@@ -7,12 +7,12 @@ class AppletGenerator < Rails::Generator::NamedBase
 
     @args = runtime_args.dup
     @applet_name = @args.shift
-    controller, action = nil, nil
+    controller, action = 'controller', 'index'
     case @args.length
     when 0 then
     when 1 then
       @has_controller = true
-      controller, action = actions[0], 'index'
+      controller = actions[0]
     when 2 then
       @has_controller = true
       controller, action = actions
@@ -22,19 +22,28 @@ class AppletGenerator < Rails::Generator::NamedBase
   end
   
   def has_controller?; @has_controller; end
+  def mvc_applet?; false; end
 
   def manifest
     record do |m|
       # Create the applet
-      m.directory File.join('app/applets', applet_name)
-      path = File.join 'app/applets', applet_name, "#{applet_name}.lzx"
-      m.template 'applet.lzx', path, :assigns => { :path => path }
-      
+      applet_dir = File.join 'app/applets', applet_name
+      applet_main = mvc_applet? ? 'mvc-applet.lzx' : 'applet.lzx'
+      js_name = "#{applet_name}.js"
+      js_path = File.join applet_dir, js_name
+      path = File.join applet_dir, "#{applet_name}.lzx"
+      m.directory applet_dir
+      m.template applet_main, path, :assigns => { :path => path, :js_path => js_name }
+      m.template 'applet.js', js_path
+
       lib = File.join('app/applets/lib')
       m.directory lib
-      m.template 'datamanager.lzx', File.join(lib, 'datamanager.lzx')
-      m.template 'modelcontroller.lzx', File.join(lib, 'modelcontroller.lzx')
-      m.template 'modelgrid.lzx', File.join(lib, 'modelgrid.lzx')
+      m.template 'shared.js', File.join(lib, 'shared.js')
+      if mvc_applet?
+        m.template 'datamanager.lzx', File.join(lib, 'datamanager.lzx')
+        m.template 'modelcontroller.lzx', File.join(lib, 'modelcontroller.lzx')
+        m.template 'modelgrid.lzx', File.join(lib, 'modelgrid.lzx')
+      end
 
       if has_controller?
         # Applets, views directories.

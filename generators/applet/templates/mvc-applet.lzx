@@ -1,0 +1,23 @@
+<canvas title="Laszlo on Rails" proxied="false">
+  <include href="../lib/modelcontroller.lzx"/>
+  <include href="../lib/modelgrid.lzx"/>
+  <dataset name="<%= singular_name %>Data">
+    <records/>
+  </dataset>
+
+  <modelcontroller name="<%= singular_name %>Controller"
+                   maindataset="$once{<%= singular_name %>Data}"
+                   modelName="<%= singular_name %>">
+    <handler name="oninit">
+      this.loadRange(0, 22);						
+    </handler>
+  </modelcontroller>
+
+  <text>My source code is in <%= path %>.</text>
+
+  <window y="30" width="900" height="400" resizable="true">
+    <modelgrid datapath ="<%= singular_name %>Data:/records"
+               width="100%" height="100%"
+               controller="$once{<%= singular_name %>Controller}"/>
+  </window>
+</canvas>

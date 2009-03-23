@@ -1,23 +1,11 @@
-<canvas title="Laszlo on Rails" proxied="false">
-  <include href="../lib/modelcontroller.lzx"/>
-  <include href="../lib/modelgrid.lzx"/>
-  <dataset name="<%= singular_name %>Data">
-    <records/>
-  </dataset>
-
-  <modelcontroller name="<%= singular_name %>Controller"
-                   maindataset="$once{<%= singular_name %>Data}"
-                   modelName="<%= singular_name %>">
-    <handler name="oninit">
-      this.loadRange(0, 22);						
-    </handler>
-  </modelcontroller>
+<canvas title="OpenLaszlo on Rails" proxied="false">
+  <script src="../lib/shared.js"/>
+  <script src="<%= js_path %>"/>
 
   <text>My source code is in <%= path %>.</text>
 
   <window y="30" width="900" height="400" resizable="true">
-    <modelgrid datapath ="<%= singular_name %>Data:/records"
-               width="100%" height="100%"
-               controller="$once{<%= singular_name %>Controller}"/>
+    <button onclick="animate('x', 100, 1000, true)">Move Right</button>
+    <button align="right" onclick="animate('x', -100, 1000, true)">Move Left</button>
   </window>
 </canvas>
