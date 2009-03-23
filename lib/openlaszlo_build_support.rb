@@ -69,7 +69,7 @@ module OpenLaszlo
         which_compiler = case results[:compiler]
                          when OpenLaszlo::CompileServer
                          when OpenLaszlo::CommandLineCompiler then
-                           "with the command-line compiler"
+                           " with the command-line compiler"
                          end
         ActiveRecord::Base.logger.info "Compiled #{name} applet#{which_compiler}" rescue nil
         if results[:warnings] and results[:warnings].any?

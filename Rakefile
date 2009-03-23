@@ -26,7 +26,7 @@ Rake::RDocTask.new(:rdoc) do |rd|
 end
 
 task :publish_rdoc => :rdoc do
-  sh" scp -r rdoc/* #{RUBYFORGE_USER}@rubyforge.org:/var/www/gforge-projects/#{RUBYFORGE_PROJECT}"
+  sh" scp -r html/* #{RUBYFORGE_USER}@rubyforge.org:/var/www/gforge-projects/#{RUBYFORGE_PROJECT}"
 end
 
 desc "Publish to RubyForge"

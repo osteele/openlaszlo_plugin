@@ -1,11 +1,11 @@
 = OpenLaszlo Rails Plugin
 
-The OpenLaszlo Rails plugin makes it easy to use
+The Open<tt></tt>Laszlo Rails plugin makes it easy to use
 OpenLaszlo[openlaszlo.org] client-side applications with Rails.  It
-includes a generator and helper for creating OpenLaszlo applications
+includes a generator and helper for creating Open<tt></tt>Laszlo applications
 and displaying them within Rails views.
 
-For example, the following shell command will create an OpenLaszlo application named +applet+, and a view named <tt>controller/index</tt>.  Requesting the view will recompile the applet.
+For example, the following shell command will create an Open<tt></tt>Laszlo application named +applet+, and a view named <tt>controller/index</tt>.  Requesting the view will recompile the applet.
   $ ./script/generate applet contact applet
 
 
@@ -13,7 +13,7 @@ For example, the following shell command will create an OpenLaszlo application n
 
 The plugin introduces two view helpers.  +swfobject_tag+ generates
 code that embeds a flash object in the page (using the
-Swfobject[blog.deconcept.com/flashobject/] javascript library).
+swfobject[http://code.google.com/p/swfobject/] JavaScript library).
 +applet_tag+ additionally recompiles the applet if it is out of date,
 and swaps in a version of the applet compiled with the debug flag set
 if the +debug+ query parameter is present in the request that resulted
@@ -24,15 +24,15 @@ development mode.
 === Generators
 
 The plugin defines the following generators, that can be used to
-quickly create an OpenLaszlo stub application and a view that displays
+quickly create an Open<tt></tt>Laszlo stub application and a view that displays
 it.
 
-  # generates an OpenLaszlo source file in app/applets/my-app
+This generates an Open<tt></tt>Laszlo source file in <tt>app/applets/my-app</tt>:
   $ ./script/generate applet my-app
 
-  # also creates a model and view at /my-controller/index that
-  # displays the applet.  When the app's source changes, requesting
-  # the view recompiles the app.
+This also creates a model and view at <tt>/my-controller/index</tt>
+that displays the applet.  When the app's source changes, requesting
+the view recompiles the app.
   $ ./script/generate applet my-app my-controller index
 
 
@@ -53,25 +53,26 @@ The plugin defines the following tasks:
 
 * Rails 2.0 or later.  (Might work with earlier versions, but is untested with them.)
 * {OpenLaszlo 3.1 or later}[openlaszlo.org]
-* The {OpenLaszlo ruby gem}[ropenlaszlo.rubyforge.org]
+* The {OpenLaszlo ruby gem}[github.com/osteele/ropenlaszlo]
 
 
 == Installation
-0: Install OpenLaszlo, Ruby, and Ruby on Rails.
+0: Install Open<tt></tt>Laszlo, Ruby, and Ruby on Rails.
 
-1: In <tt>config/environment</tt>, place the following code inside the `Rails::Initializer.run` block:
+1: In <tt>config/environment</tt>, place the following code inside the <tt>Rails::Initializer.run</tt> block:
   config.gem 'osteele-ropenlaszlo', :lib => 'openlaszlo', :version => '>= 0.6.3', :source => 'http://gems.github.com'
 
-2: Install the gem:
+2: Install the {ropenlaszlo}[github.com/osteele/ropenlaszlo] gem:
   $ sudo rake gems:install
 
 3: Install this plugin:
   $ ./script/plugin install http://github.com/osteele/openlaszlo-plugin
 
-4: Set your +OPENLASZLO_HOME+ environment variable to the directory that contains the OpenLaszlo SDK (for example, <tt>"/Applications/OpenLaszlo Server 4.2.0.2"</tt>).  If the following prints anything, you've got it right:
-  $ grep Laszlo "$OPENLASZLO_HOME/README.txt"
-
-5: Set your +OPENLASZLO_URL+ environment variable to the web location of the Open<tt></tt>Laszlo server (for example, <tt>http</tt><tt>://localhost:8080/lps-4.2.0.2</tt>).  This step is optional in other platforms (although it makes compilation faster), but is {mandatory on Windows}[OpenLaszlo bug 1428}[www.openlaszlo.org/jira/browse/LPP-1428].
+4: Set the +OPENLASZLO_HOME+ environment variable to the directory that contains the Open<tt></tt>Laszlo SDK.  The first line below is an example of this in bash (although
+you will probably want to put this in your <tt>.bashrc</tt> or <tt>.profile</tt>).
+The second line of shell script will tell you whether you've set it right.
+  $ export OPENLASZLO_HOME="/Applications/Open</tt><tt>Laszlo Server 4.2.0.2"
+  $ grep -qs Laszlo "$OPENLASZLO_HOME/README.txt" && echo yes || echo no
 
 
 == Usage
@@ -87,15 +88,23 @@ In your RAILS application directory:
 Now launch the server (<tt>script/server</tt>), and you can view your applet at <tt>ht</tt><tt>tp:127.0.0.1:3000/controller/index</tt>.
 
 
+== Using the Compile Server
+
+The steps described above use the Open<tt></tt>Laszlo command-line compiler to compile applications.  A faster technique, although one that requires more configuration, is to leave the Open<tt></tt>Laszlo server running as a compile server.
+
+The instructions for setting up an Open<tt></tt>Laszlo compile server are {here}[http://wiki.github.com/osteele/openlaszlo-plugin/using-the-compile-server].
+
+
+
 == Resources
 
-* {OpenLaszlo Plugin project page}[rubyforge.org/projects/laszlo-plugin]
-* {OpenLaszlo Gem project page}[rubyforge.org/projects/ropenlaszlo]
-* {OpenLaszlo Project Page}[openlaszlo.org/]
-* {Laszlo on Rails project page}[wiki.openlaszlo.org/Laszlo_on_Rails]
-* {Calendar example application}[osteele.com/sources/ruby/openlaszlo]
-* {Laszlo on Rails mailing list}[groups.google.com/group/laszlo-on-rails]
+* {OpenLaszlo Plugin Rubyforge project page}[rubyforge.org/projects/laszlo-plugin]
+* {OpenLaszlo Plugin Github repository}[github.com/osteele/openlaszlo-plugin]
+* {OpenLaszlo Plugin Wiki}[wiki.github.com/osteele/openlaszlo-plugin]
+* {OpenLaszlo Site}[openlaszlo.org]
+* {OpenLaszlo Gem project page}[github.com/osteele/ropenlaszlo]
 * {swfobject}[http://code.google.com/p/swfobject/]
+
 
 == Authors
 
