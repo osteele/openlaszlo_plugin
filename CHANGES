@@ -1,6 +1,13 @@
 = OpenLaszlo Rails Plugin -- Change History
 
-== trunk
+== 0.9.2 (2009-03-23)
+* add back applet generator
+* add doc:applets tasks
+* update to swfobject 2.1
+* bundle expressInstall
+* log compilations
+
+== 0.9.1 (2008-04-14)
 * upgraded flashobject.js -> swfobject.js
 * +flashobject_tags+ -> +swfobject_tag+
 * new helper +applet_tag+ recompiles applet during development
