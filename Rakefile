@@ -4,7 +4,7 @@ require 'rake/packagetask'
 require 'rake/contrib/rubyforgepublisher'
 
 PKG_NAME = "laszlo-plugin"
-PKG_VERSION = '0.9'
+PKG_VERSION = '0.9.2'
 RUBYFORGE_PROJECT = 'laszlo-plugin'
 RUBYFORGE_USER = ENV['RUBYFORGE_USER']
 
@@ -20,9 +20,9 @@ desc 'Generate documentation for the plugin.'
 Rake::RDocTask.new(:rdoc) do |rd|
   rd.rdoc_dir = 'html'
   rd.options << '--title' << "OpenLaszlo Rails Plugin" <<
-    '--main' << 'README'
+    '--main' << 'README.rdoc'
   rd.rdoc_files.include FileList['lib/*']
-  rd.rdoc_files.include ['README', 'CHANGES', 'TODO', 'MIT-LICENSE']
+  rd.rdoc_files.include ['README.rdoc', 'CHANGES', 'TODO', 'MIT-LICENSE']
 end
 
 task :publish_rdoc => :rdoc do

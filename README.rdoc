@@ -5,8 +5,8 @@ OpenLaszlo[openlaszlo.org] client-side applications with Rails.  It
 includes a generator and helper for creating OpenLaszlo applications
 and displaying them within Rails views.
 
-For example, the following shell command will create a Rails model named +Contact+, a REST controller named +ContactController+, an OpenLaszlo application named +applet+, and a view named <tt>contact/applet</tt>.  At this point the applet will automatically display records that it retrieves, via the controller, from the model.
-  > ./script/generate applet contact applet
+For example, the following shell command will create an OpenLaszlo application named +applet+, and a view named <tt>controller/index</tt>.  Requesting the view will recompile the applet.
+  $ ./script/generate applet contact applet
 
 
 === View Helper
@@ -23,25 +23,30 @@ development mode.
 
 === Generators
 
-The plugin defines the following generator, that can be used to
+The plugin defines the following generators, that can be used to
 quickly create an OpenLaszlo stub application and a view that displays
-it.  Use the <tt>--help</tt> option with a generator for more
-information.
+it.
 
-  ./script/generate applet # generates an OpenLaszlo source file, and a view to hold it
+  # generates an OpenLaszlo source file in app/applets/my-app
+  $ ./script/generate applet my-app
+
+  # also creates a model and view at /my-controller/index that
+  # displays the applet.  When the app's source changes, requesting
+  # the view recompiles the app.
+  $ ./script/generate applet my-app my-controller index
 
 
 === Rails Tasks
 
 The plugin defines the following tasks:
+  # Recompile any applets in the app/applets directory
   rake openlaszlo:build:applets
-    Recompile any applets in the app/applets directory
 
+  # Clean the applets directory
   rake openlaszlo:clobber:applets
-    Clean the applets directory
 
+  # Copies the swfobject javascripts to public/javascripts
   rake openlaszlo:install:javascripts
-    Copies the OpenLaszlo javascripts to public/javascripts
 
 
 == Requirements
@@ -54,16 +59,19 @@ The plugin defines the following tasks:
 == Installation
 0: Install OpenLaszlo, Ruby, and Ruby on Rails.
 
-1: Install the ROpenLaszlo gem:
-  > gem install ropenlaszlo
+1: In <tt>config/environment</tt>, place the following code inside the `Rails::Initializer.run` block:
+  config.gem 'osteele-ropenlaszlo', :lib => 'openlaszlo', :version => '>= 0.6.3', :source => 'http://gems.github.com'
 
-2: Install this plugin.  In your rails application directory:
-  > ./script/plugin install svn://rubyforge.org/var/svn/laszlo-plugin/tags/openlaszlo
+2: Install the gem:
+  $ sudo rake gems:install
 
-3: Set your +OPENLASZLO_HOME+ environment variable to the directory that contains the OpenLaszlo SDK.  If the following prints anything, you've got it right:
-  > grep Laszlo "$OPENLASZLO_HOME/README.txt"
+3: Install this plugin:
+  $ ./script/plugin install http://github.com/osteele/openlaszlo-plugin
 
-4: Set your +OPENLASZLO_URL+ environment variable to the web location of the Open<tt></tt>Laszlo server; for example, <tt>http</tt><tt>://localhost:8080/lps-3.1.1</tt>.  This step is optional in other platforms (although it makes compilation faster), but is {mandatory on Windows}[OpenLaszlo bug 1428}[www.openlaszlo.org/jira/browse/LPP-1428].
+4: Set your +OPENLASZLO_HOME+ environment variable to the directory that contains the OpenLaszlo SDK (for example, <tt>"/Applications/OpenLaszlo Server 4.2.0.2"</tt>).  If the following prints anything, you've got it right:
+  $ grep Laszlo "$OPENLASZLO_HOME/README.txt"
+
+5: Set your +OPENLASZLO_URL+ environment variable to the web location of the Open<tt></tt>Laszlo server (for example, <tt>http</tt><tt>://localhost:8080/lps-4.2.0.2</tt>).  This step is optional in other platforms (although it makes compilation faster), but is {mandatory on Windows}[OpenLaszlo bug 1428}[www.openlaszlo.org/jira/browse/LPP-1428].
 
 
 == Usage
@@ -71,12 +79,12 @@ The plugin defines the following tasks:
 In your RAILS application directory:
 
 1: Create an applet, and a view that displays it:
-  > ./script/generate applet contacts applet
+  $ ./script/generate applet my-applet controller index
 
-2: Compile the applet:
-  > rake applets
+2: Compile the applet (this step is optional):
+  $ rake openlaszlo:build:applets
 
-Now launch the server (<tt>script/server</tt>), and you can view your applet at <tt>ht</tt><tt>tp:127.0.0.1:3000/contacts/applet</tt>.
+Now launch the server (<tt>script/server</tt>), and you can view your applet at <tt>ht</tt><tt>tp:127.0.0.1:3000/controller/index</tt>.
 
 
 == Resources
