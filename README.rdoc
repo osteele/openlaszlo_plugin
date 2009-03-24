@@ -56,10 +56,15 @@ The plugin defines the following tasks:
 * The {OpenLaszlo ruby gem}[github.com/osteele/ropenlaszlo]
 
 
-== Installation (Rails 2.3 or later)
+== Installation (using templates; for Rails 2.3 or later)
 
 In Rails 2.3 or later, you can use the Rails template mechanism to install
 the Open<tt></tt>Laszlo plugin and the gem that it depends on.
+
+The template requires that you give it <tt>sudo</tt> access, in order
+to run <tt>sudo rake gems:install</tt>.  If you don't want to or can't
+do this, you can use the instructions for previous versions of Rails
+below.
 
 To create a new Rails app:
   rails webapp -m http://gist.github.com/83809.txt
@@ -69,8 +74,8 @@ To upgrade an existing app:
 
 To create a new Rails app, or upgrade an existing one, *and* create
 a starter applet that's served from <tt>/home/applet</tt>, do one of:
-  generate=true rails webapp -m http://gist.github.com/83809.txt
-  generate=true rake rails:template LOCATION=http://gist.github.com/83809.txt
+  generate=myapp rails webapp -m http://gist.github.com/83809.txt
+  generate=myapp rake rails:template LOCATION=http://gist.github.com/83809.txt
 
 
 == Installation (Rails 2.1 or later)
@@ -87,8 +92,8 @@ a starter applet that's served from <tt>/home/applet</tt>, do one of:
   $ ./script/plugin install http://github.com/osteele/openlaszlo-plugin
 
 4: Set the +OPENLASZLO_HOME+ environment variable to the directory that contains the Open<tt></tt>Laszlo SDK.  The first line below is an example of this in bash (although
-you will probably want to put this in your <tt>.bashrc</tt> or <tt>.profile</tt>).
-The second line of shell script will tell you whether you've set it right.
+you will probably want to put this in your <tt>.bashrc</tt> or <tt>.profile</tt> too).
+If you're not using Windows, the second line of shell script will tell you whether you've set it right.
   $ export OPENLASZLO_HOME="/Applications/OpenLaszlo Server 4.2.0.2"
   $ grep -qs Laszlo "$OPENLASZLO_HOME/README.txt" && echo yes || echo no
 
