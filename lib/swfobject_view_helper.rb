@@ -17,7 +17,17 @@ module ActionView #:nodoc:
         # * a file name without an extension, such as "applet"
         # All of the above are expanded to "/assets/applet.swf"
         def swfobject_path(source)
-          compute_public_path(source, 'applets', 'swf')
+          compute_public_path(source, 'assets', 'swf')
+        rescue NoMethodError
+          # Rails 2.2 is missing compute_public_path.  It's present in
+          # Rails 2.1 and Rails 2.3.  The right thing to do is to
+          # conditionally define SwfObjectTag < AssetTag for Rails
+          # 2.2, and return SwfObjectTag.new(self, ???,
+          # source).public_path.  Do this instead.
+          javascript_path(source.sub(/\/assets/, '/javascripts')).
+            sub(/\/javascripts/, '/assets').
+            sub(/\.js$/, '.swf').
+            sub(/\.swf\.swf$/, 'swf')
         end
         
         # Returns a set of tags that display a Flash object within an

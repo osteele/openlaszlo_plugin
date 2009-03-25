@@ -12,12 +12,19 @@ module ActionView #:nodoc:
       module InstanceMethods
         # Returns a path to a Flash object.  The +src+ can be supplied as:
         #
-        # * a full path, such as "/assets/applet.swf"
+        # * a full path, such as "/applets/applet.swf"
         # * a file name such "applet.swf"
         # * a file name without an extension, such as "applet"
-        # All of the above are expanded to "/assets/applet.swf"
+        # All of the above are expanded to "/applets/applet.swf"
         def applet_path(source)
+          source = source.sub(/\.lzx/, '')
           compute_public_path(source, 'applets', 'swf')
+       rescue NoMethodError
+          # See the note at
+          # ActionView::Helpers::SwfObjectHelper::InstanceMethods#swfobject_path
+          javascript_path(source.sub(/\/applets/, '/javascripts')).
+            sub(/\/javascripts/, '/applets').
+            sub(/\.js$/, '.swf')
         end
         
         # This method is equivalent to swfobject_tag except, that
@@ -42,7 +49,7 @@ module ActionView #:nodoc:
             end
             OpenLaszlo::Rails::update_asset(path)
           end
-          swfobject_tag(source, options)
+          swfobject_tag(path, options)
         end
       end
     end
