@@ -3,6 +3,7 @@
 == Trunk
 * hacked applet_tag and swfobject_tag to work with Rails 2.2
 * applet_tag removes '.lzx', if present
+* remove use of Array#count (not present in Ruby 1.8.6)
 
 == 0.9.2 (2009-03-23)
 * add back applet generator

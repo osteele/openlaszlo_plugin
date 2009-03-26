@@ -14,15 +14,18 @@ module OpenLaszlo
 
     private
     def self.install_files(files, dest_dir)
-      files.count do |src_file|
+      # Array#count is not present in Ruby 1.8.
+      count = 0
+      files.map do |src_file|
         js_file = File.basename(src_file)
         dest_file = File.join(RAILS_ROOT, "public", dest_dir, js_file)
         next if File.exists?(dest_file) and
           File.mtime(dest_file) >= File.mtime(src_file) and
           File.size(dest_file) == File.size(src_file)
         FileUtils.cp_r(src_file, dest_file)
-        true
+        count += 1
       end
+      return count
     end
   end
 end
