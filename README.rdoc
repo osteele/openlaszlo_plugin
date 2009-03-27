@@ -83,7 +83,7 @@ a starter applet that's served from <tt>/home/applet</tt>, do one of:
 0: Install Open<tt></tt>Laszlo, Ruby, and Ruby on Rails.
 
 1: In <tt>config/environment</tt>, place the following code inside the <tt>Rails::Initializer.run</tt> block:
-  config.gem 'osteele-ropenlaszlo', :lib => 'openlaszlo', :version => '>= 0.6.3', :source => 'http://gems.github.com'
+  config.gem 'ropenlaszlo', :lib => 'openlaszlo', :version => '>= 0.6.3'
 
 2: Install the {ropenlaszlo}[github.com/osteele/ropenlaszlo] gem:
   $ sudo rake gems:install
