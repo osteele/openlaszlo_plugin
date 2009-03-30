@@ -1,4 +1,13 @@
 namespace :openlaszlo do
+  namespace :create do
+    desc "Create a symlink from OPENLASZLO_HOME to app/applets, for faster compilation"
+    task :symlinks do
+      require 'openlaszlo/utils'
+      target = OpenLaszlo::symlink_to 'app/applets', "#{File.basename(RAILS_ROOT)}.rails"
+      puts "Created link at #{target}"
+    end
+  end
+
   namespace :build do
     desc "Compile any applets in the app/applets directory"
     task :applets do
