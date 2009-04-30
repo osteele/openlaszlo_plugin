@@ -89,7 +89,7 @@ a starter applet that's served from <tt>/home/applet</tt>, do one of:
   $ sudo rake gems:install
 
 3: Install this plugin:
-  $ ./script/plugin install git://github.com/osteele/openlaszlo-plugin.git
+  $ ./script/plugin install git://github.com/osteele/openlaszlo_plugin.git
 
 4: Set the +OPENLASZLO_HOME+ environment variable to the directory that contains the Open<tt></tt>Laszlo SDK.  The first line below is an example of this in bash (although
 you will probably want to put this in your <tt>.bashrc</tt> or <tt>.profile</tt> too).
@@ -115,15 +115,15 @@ Now launch the server (<tt>script/server</tt>), and you can view your applet at 
 
 The steps described above use the Open<tt></tt>Laszlo command-line compiler to compile applications.  A faster technique, although one that requires more configuration, is to leave the Open<tt></tt>Laszlo server running as a compile server.
 
-The instructions for setting up an Open<tt></tt>Laszlo compile server are {here}[http://wiki.github.com/osteele/openlaszlo-plugin/using-the-compile-server].
+The instructions for setting up an Open<tt></tt>Laszlo compile server are {here}[http://wiki.github.com/osteele/openlaszlo_plugin/using-the-compile-server].
 
 
 
 == Resources
 
 * {OpenLaszlo Plugin Rubyforge project page}[rubyforge.org/projects/laszlo-plugin]
-* {OpenLaszlo Plugin Github repository}[github.com/osteele/openlaszlo-plugin]
-* {OpenLaszlo Plugin Wiki}[wiki.github.com/osteele/openlaszlo-plugin]
+* {OpenLaszlo Plugin Github repository}[github.com/osteele/openlaszlo_plugin]
+* {OpenLaszlo Plugin Wiki}[wiki.github.com/osteele/openlaszlo_plugin]
 * {OpenLaszlo Site}[openlaszlo.org]
 * {OpenLaszlo Gem project page}[github.com/osteele/ropenlaszlo]
 * {swfobject}[http://code.google.com/p/swfobject/]
